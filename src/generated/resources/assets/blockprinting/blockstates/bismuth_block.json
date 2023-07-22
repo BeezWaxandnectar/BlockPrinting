@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "blockprinting:block/bismuth_block"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+// 1.20	2023-07-22T15:24:32.505254	Block States: blockprinting
+5d7b3e869e5ea4891bbedf7b26bd59c8fdc6d10b assets/blockprinting/blockstates/base.json
+2f75de7f64c904946de6c76ab68b31e192257835 assets/blockprinting/blockstates/bismuth_block.json
+6ae37357b71bb7036a73063977e528f9de602753 assets/blockprinting/models/block/base.json
+a64941b65b2736394e5bd23249199937574882f3 assets/blockprinting/models/block/bismuth_block.json
+68fc6d1515a13a28e7ace6b7e1b9d848de30895a assets/blockprinting/models/item/base.json
+52f235e030490718be555190e7daa49cc9e39a1a assets/blockprinting/models/item/bismuth_block.json
