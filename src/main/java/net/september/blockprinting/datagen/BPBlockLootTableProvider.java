@@ -20,6 +20,7 @@ public class BPBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(BPBlocks.BISMUTH_BLOCK.get());
         //this.dropSelf(BPBlocks.CANVASTEST.get());
         this.dropSelf(BPBlocks.BASE.get());
+        this.dropSelf(BPBlocks.TEST2.get());
 
     }
 

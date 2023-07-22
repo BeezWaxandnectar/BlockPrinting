@@ -5,37 +5,37 @@
       "faces": {
         "down": {
           "forge_data": {
-            "color": "fff99542"
+            "color": "ff136f63"
           },
           "texture": "#down"
         },
         "east": {
           "forge_data": {
-            "color": "fff99542"
+            "color": "ff136f63"
           },
           "texture": "#east"
         },
         "north": {
           "forge_data": {
-            "color": "fff99542"
+            "color": "ff136f63"
           },
           "texture": "#north"
         },
         "south": {
           "forge_data": {
-            "color": "fff99542"
+            "color": "ff136f63"
           },
           "texture": "#south"
         },
         "up": {
           "forge_data": {
-            "color": "fff99542"
+            "color": "ff136f63"
           },
           "texture": "#up"
         },
         "west": {
           "forge_data": {
-            "color": "fff99542"
+            "color": "ff136f63"
           },
           "texture": "#west"
         }
@@ -55,37 +55,37 @@
       "faces": {
         "down": {
           "forge_data": {
-            "color": "ff17a0a0"
+            "color": "ff032b43"
           },
           "texture": "#style"
         },
         "east": {
           "forge_data": {
-            "color": "ff17a0a0"
+            "color": "ff032b43"
           },
           "texture": "#style"
         },
         "north": {
           "forge_data": {
-            "color": "ff17a0a0"
+            "color": "ff032b43"
           },
           "texture": "#style"
         },
         "south": {
           "forge_data": {
-            "color": "ff17a0a0"
+            "color": "ff032b43"
           },
           "texture": "#style"
         },
         "up": {
           "forge_data": {
-            "color": "ff17a0a0"
+            "color": "ff032b43"
           },
           "texture": "#style"
         },
         "west": {
           "forge_data": {
-            "color": "ff17a0a0"
+            "color": "ff032b43"
           },
           "texture": "#style"
         }
@@ -105,37 +105,37 @@
       "faces": {
         "down": {
           "forge_data": {
-            "color": "ff001212"
+            "color": "ff000012"
           },
           "texture": "#substrate"
         },
         "east": {
           "forge_data": {
-            "color": "ff001212"
+            "color": "ff000012"
           },
           "texture": "#substrate"
         },
         "north": {
           "forge_data": {
-            "color": "ff001212"
+            "color": "ff000012"
           },
           "texture": "#substrate"
         },
         "south": {
           "forge_data": {
-            "color": "ff001212"
+            "color": "ff000012"
           },
           "texture": "#substrate"
         },
         "up": {
           "forge_data": {
-            "color": "ff001212"
+            "color": "ff000012"
           },
           "texture": "#substrate"
         },
         "west": {
           "forge_data": {
-            "color": "ff001212"
+            "color": "ff000012"
           },
           "texture": "#substrate"
         }
@@ -159,7 +159,7 @@
     "north": "blockprinting:block/base",
     "particle": "blockprinting:block/base",
     "south": "blockprinting:block/base",
-    "style": "blockprinting:block/bpstylesfolder/floral",
+    "style": "blockprinting:block/bpstylesfolder/argyle",
     "substrate": "blockprinting:block/bpsubstratesfolder/wallpaper",
     "up": "blockprinting:block/base",
     "west": "blockprinting:block/base"

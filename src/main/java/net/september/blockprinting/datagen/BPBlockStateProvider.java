@@ -9,7 +9,6 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.september.blockprinting.block.BPBlocks;
-import net.september.blockprinting.datagen.FileHandler;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -26,10 +25,12 @@ public class BPBlockStateProvider extends BlockStateProvider{
 
     protected void registerStatesAndModels() {
         FileHandler.CreateMaps();
+        Swatch.CreateSwatchMap();
 
         registerStandardBlock(BPBlocks.BISMUTH_BLOCK);
         try {
-            registerLayeredBlock(BPBlocks.BASE, "floral", "wallpaper",0);
+            registerLayeredBlock(BPBlocks.BASE, "floral", "wallpaper","tropical");
+            registerLayeredBlock(BPBlocks.TEST2, "argyle", "wallpaper","hydra");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,7 +48,7 @@ public class BPBlockStateProvider extends BlockStateProvider{
         simpleBlockWithItem(block.get(), cubeAll(block.get()));
     }
 
-    protected void registerLayeredBlock(RegistryObject<Block> blockRegistryObject, String Style, String Substrate, int SwatchIndex) throws IOException {
+    protected void registerLayeredBlock(RegistryObject<Block> blockRegistryObject, String Style, String Substrate, String swatchName) throws IOException {
         Block block = blockRegistryObject.get();
 
         simpleBlockWithItem( block,
@@ -55,18 +56,19 @@ public class BPBlockStateProvider extends BlockStateProvider{
                         getName(block),
                         FileHandler.getStyle(Style),
                         FileHandler.getSubstrate(Substrate),
-                        SwatchIndex
+                        swatchName
                 ));}
 
-    private BlockModelBuilder buildLayeredBlock(String name, ResourceLocation style, ResourceLocation substrate, Integer SwatchIndex){
+    private BlockModelBuilder buildLayeredBlock(String name, ResourceLocation style, ResourceLocation substrate, String swatchName){
 
-        Swatch swatch = Swatch.getSwatch(SwatchIndex);
+        Swatch swatch = Swatch.getSwatch(swatchName);
         int BaseColor = swatch.BaseColor;
         int StyleColor = swatch.StyleColor;
         int SubstrateColor = swatch.SubstrateColor;
-        String Name = swatch.Name;
 
-        System.out.println("Building " + Name + " " + style + " " + substrate);
+        System.out.println("Building " + swatchName + " " + style + " " + substrate);
+
+        //TODO: Fix RenderType
 
         return models().cube(name, base, base, base, base, base, base)
                 .texture("style", style)

@@ -1,3 +1,4 @@
-// 1.20	2023-07-19T17:52:03.708819	Loot Tables
+// 1.20	2023-07-22T16:35:23.169605	Loot Tables
 1a0d5dcd747282139447231f02c3e82c028dafc1 data/blockprinting/loot_tables/blocks/base.json
 571ea31372e4f0b49c9ea25c3f1751ea8f7fd209 data/blockprinting/loot_tables/blocks/bismuth_block.json
+af6f10deab66bec20a00972a3679b829577df29e data/blockprinting/loot_tables/blocks/test2.json

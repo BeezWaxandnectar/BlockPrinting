@@ -26,6 +26,7 @@ public class BPCreativeTab {
                         pOutput.accept(BPBlocks.BISMUTH_BLOCK.get());
                         //pOutput.accept(BPBlocks.CANVASTEST.get());
                         pOutput.accept(BPBlocks.BASE.get());
+                        pOutput.accept(BPBlocks.TEST2.get());
 
 
 
