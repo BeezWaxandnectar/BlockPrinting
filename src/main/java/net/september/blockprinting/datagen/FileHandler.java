@@ -37,35 +37,10 @@ public class FileHandler {
         System.out.println(" > Output String:  " + output);
         return output;
 
-    }//*/
-
-
-    //##############################################//
-    //# I'm pretty sure this method is the problem #//
-    //##VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV##//
-
-    //TODO Find out why.
-    /*private static Stream<String> TextureNames(String folder) throws IOException {
-
-        Path folderpath = locateResource(folder);
-        System.out.println("Method TextureNames activates");
-        System.out.println(" > Read Folderpath= " + folderpath);
-
-        if (folderpath.isAbsolute()){
-            System.out.println(" > Path reads as absolute!");
-        } else {
-            System.out.println(" > Path is not absolute, but does that mean it can't be read?");
-        }
-
-      Stream<Path> files = Files.list(folderpath);
-
-      return files.map(String::valueOf);
-
-    }*/
-
+    }
 
     public static Set<String> TextureNames(String folder) throws IOException {
-
+        // Method Credit: Baeldung
         Path folderpath = locateResource(folder);
         Set<String> fileSet = new HashSet<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of(UserDir + folderpath))) {
@@ -78,24 +53,6 @@ public class FileHandler {
         System.out.println(fileSet);
         return fileSet;
     }
-
-
-    /*
-
-public Set<String> listFilesUsingDirectoryStream(String dir) throws IOException {
-    Set<String> fileSet = new HashSet<>();
-    try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir))) {
-        for (Path path : stream) {
-            if (!Files.isDirectory(path)) {
-                fileSet.add(path.getFileName()
-                    .toString());
-            }
-        }
-    }
-    return fileSet;
-}
-*/
-
 
     static String StringerBell(Path input){
         //placeholder string manipulator
@@ -130,39 +87,3 @@ public Set<String> listFilesUsingDirectoryStream(String dir) throws IOException 
     public static ResourceLocation getSubstrate(String key) throws IOException {return SubstrateMap.get(key);}
 
 }
-
-/*
-/############################################################################################################
-
-public interface OldFileHandler extends DataProvider {
-
-    private static ArrayList<String> listNamesOfTextures(Path folder) throws IOException {
-        Stream<Path> Textures = Files.list(folder);
-        ArrayList<String> TextureNames = new ArrayList<String>();
-        Textures.forEach(Texture -> TextureNames.add(String.valueOf(Texture)));
-        return TextureNames;
-    }
-    static HashMap<String, ResourceLocation> NewMap(Path folder) throws IOException {
-        HashMap<String, ResourceLocation> NewMap = new HashMap<>();
-        ArrayList<String> TextureNames = listNamesOfTextures(folder);
-
-        for(String TextureName : TextureNames) {
-            String Key = TextureName;
-
-            if (TextureName.endsWith(".png")){
-                Key = TextureName.substring(0, (TextureName.length()-4));
-
-            } else if (TextureName.startsWith(String.valueOf(folder))) {
-                Key = TextureName.substring(String.valueOf(folder).length() + 1);
-
-            } else if (TextureName.startsWith(String.valueOf(folder)) && TextureName.endsWith(".png")){
-                Key = TextureName.substring((String.valueOf(folder).length() + 1), (TextureName.length()-4));
-
-            } else if (NewMap.size() < TextureNames.size()){
-                NewMap.put(Key, new ResourceLocation("blockprinting:block/bpstylesfolder/" + Key));
-
-            }}
-        return NewMap;
-    }
-}
-*/
