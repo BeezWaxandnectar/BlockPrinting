@@ -19,7 +19,7 @@ public class Swatch {
         return swatch.Name;
     }
 
-    private static ArrayList<Swatch> SwatchList = new ArrayList<>(Arrays.asList(
+    private static final ArrayList<Swatch> SwatchList = new ArrayList<>(Arrays.asList(
             new Swatch("tropical", 0xFFF99542, 0xFF17A0A0, 0xFF001212),
             new Swatch("hydra", 0xFF136F63, 0xFF032B43, 0xFF000012),
             new Swatch("goth", 0xFF262420, 0xFF130900, 0xFF090000),
@@ -32,8 +32,6 @@ public class Swatch {
 
     public static HashMap<String, Swatch> NewMap(){
         HashMap<String, Swatch> NewMap = new HashMap<>();
-
-
         for(Swatch swatch : SwatchList){
             NewMap.put(getSwatchName(swatch), swatch);
         }

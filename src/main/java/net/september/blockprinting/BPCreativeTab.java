@@ -22,19 +22,19 @@ public class BPCreativeTab {
 
 
                         pOutput.accept(BPItems.DEV_REMOTE.get());
-
                         pOutput.accept(BPBlocks.BISMUTH_BLOCK.get());
-                        //pOutput.accept(BPBlocks.CANVASTEST.get());
                         pOutput.accept(BPBlocks.BASE.get());
                         pOutput.accept(BPBlocks.TEST2.get());
 
 
+                    }).build());
 
-                            }
+    public static RegistryObject<CreativeModeTab> GENERATEDBLOCKS = CREATIVE_MODE_TABS.register("bpCreativeGeneratedBlocks", () ->
+            CreativeModeTab.builder().icon(() -> new ItemStack(BPBlocks.BASE.get())).withSearchBar().displayItems(((pParameters, pOutput) -> {
 
-                    )
+                pOutput.accept();
 
-                    .build());
+            })).build());
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

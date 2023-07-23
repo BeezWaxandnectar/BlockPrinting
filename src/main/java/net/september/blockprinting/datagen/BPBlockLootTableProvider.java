@@ -22,8 +22,16 @@ public class BPBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(BPBlocks.BASE.get());
         this.dropSelf(BPBlocks.TEST2.get());
 
+        IterateDropSelf(BPBlocks.BOARDS);
+
+
     }
 
+    protected void IterateDropSelf(Substrate[] SubstrateArray){
+        for (Substrate substrate : SubstrateArray){
+            this.dropSelf(substrate.blockField.get());
+        }
+    }
 
     @Override
     protected Iterable<Block> getKnownBlocks() {

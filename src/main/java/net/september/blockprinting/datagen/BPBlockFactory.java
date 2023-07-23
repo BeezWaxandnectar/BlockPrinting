@@ -11,52 +11,45 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.block.BPBlocks;
-import net.september.blockprinting.datagen.Substrate;
 
 import java.io.IOException;
 
+
+//to do list://
+
+// Teach the provider to generate Lang files
+// Teach the provider to add an object to LootTableProvider
+// Teach the provider to read from substrate setting files?
+// Teach the provider to make every possible block.
+// Implement this shit in survival???
+// Printing press
+// Stamps / Stamp carver
+//
+// Presets - oh lord
+// Recipes for all of the above
+
+// WOULD BE NICE:
+
+// Only generate blocks once they've been programmed ingame :/
+// Teach the provider to read from divvied up Styles
+
 public class BPBlockFactory extends BlockStateProvider{
-
-
 
     public BPBlockFactory(PackOutput output, String modid, ExistingFileHelper XFileHelper) throws IOException {
         super(output, modid, XFileHelper);
     }
     final ResourceLocation base = new  ResourceLocation("blockprinting","block/base");
 
-
-    //to do list://
-
-    // Teach the provider to generate Lang files
-    // Teach the provider to add an object to LootTableProvider
-    // Teach the provider to read from substrate setting files?
-    // Teach the provider to make every possible block.
-    // Implement this shit in survival???
-            // Printing press
-            // Stamps / Stamp carver
-            //
-            // Presets - oh lord
-            // Recipes for all of the above
-
-    // WOULD BE NICE:
-
-    // Only generate blocks once they've been programmed ingame :/
-    // Teach the provider to read from divvied up Styles
-
     protected void registerStatesAndModels() {
-        FileHandler.CreateMaps();
-        Swatch.CreateSwatchMap();
 
         registerStandardBlock(BPBlocks.BISMUTH_BLOCK);
         try {
-            registerLayeredBlock(BPBlocks.BASE,  82, "floral", "wallpaper","tropical");
-            registerLayeredBlock(BPBlocks.TEST2, 81, "argyle", "wallpaper","hydra");
+            registerLayeredBlock(BPBlocks.BASE,  82,"tropical", "floral", "wallpaper");
+            registerLayeredBlock(BPBlocks.TEST2, 81,"hydra", "argyle", "wallpaper");
 
-
-            for(Assembly assembly : Assembly.AssembledCombinations){
-                registerLayeredBlock(BPBlocks.BOARDTEST, assembly.index, assembly.swatch, assembly.style, "board");
-            }
-
+            registerManyLayeredBlocks(BPBlocks.BOARDS, "board");
+            //  registerManyLayeredBlocks(BPBlocks.WOOL, "wool");
+            //  registerManyLayeredBlocks(BPBlocks.WALLPAPER, "wallpaper");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -75,9 +68,18 @@ public class BPBlockFactory extends BlockStateProvider{
     //v-METHODS-v//
     //###########//
 
-    protected void registerManyLayeredBlocks(Substrate[] SubstrateArray){
+    protected void registerManyLayeredBlocks(Substrate[] SubstrateArray, String SubstrateResourceLocation) throws IOException {
+        int CurrentIndex = 0;
         for (Substrate substrate : SubstrateArray){
-
+            Assembly CurrentAssembly = Assembly.AssembledCombinations[CurrentIndex];
+            registerLayeredBlock(
+                    substrate.blockField,
+                    CurrentIndex,
+                    CurrentAssembly.swatch,
+                    CurrentAssembly.style,
+                    SubstrateResourceLocation
+            );
+            CurrentIndex++;
         }
     }
 
@@ -100,7 +102,7 @@ public class BPBlockFactory extends BlockStateProvider{
         int StyleColor = swatch.StyleColor;
         int SubstrateColor = swatch.SubstrateColor;
 
-        System.out.println("Building #" + index + substrate + " " + swatchName + " " + style);
+        System.out.println("Building #" + index + " " + name);
 
         //TODO: Fix RenderType
         //TODO: Split Substrates off of FileHandler

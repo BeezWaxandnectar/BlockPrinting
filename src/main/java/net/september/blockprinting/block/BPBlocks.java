@@ -14,6 +14,7 @@ import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.datagen.Assembly;
 import net.september.blockprinting.datagen.Substrate;
 import net.september.blockprinting.item.BPItems;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
@@ -22,13 +23,14 @@ public class BPBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, BlockPrinting.MOD_ID);
 
-    public Substrate[] BlockRegistryObjectArray(String substrate, BlockBehaviour material, SoundType sound){
+    public static Substrate @NotNull [] BlockRegistryObjectArray(String substrate, BlockBehaviour material, SoundType sound){
         Substrate[] SubstrateArray = new Substrate[Assembly.AssembledCombinations.length];
-
+        int CurrentIndex = 0;
             for (Assembly assembly : Assembly.AssembledCombinations){
-                RegistryObject<Block> B = registerBlock(assembly.swatch + "_" + assembly.style + "_" + substrate,
-                        () -> new Block(BlockBehaviour.Properties.copy(material).sound(sound)));
-                SubstrateArray[assembly.index] = new Substrate(B, assembly.index);
+                assembly = Assembly.AssembledCombinations[CurrentIndex];
+                RegistryObject<Block> B = registerBlock(assembly.swatch + "_" + assembly.style + "_" + substrate, () -> new Block(BlockBehaviour.Properties.copy(material).sound(sound)));
+                SubstrateArray[CurrentIndex] = new Substrate(B, CurrentIndex);
+                CurrentIndex++;
             }
             return SubstrateArray;
     }
@@ -40,9 +42,10 @@ public class BPBlocks {
     public static final RegistryObject<Block> BISMUTH_BLOCK = registerBlock("bismuth_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.TUFF).sound(SoundType.TUFF)));
     public static final RegistryObject<Block> BASE = registerBlock("base", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
     public static final RegistryObject<Block> TEST2 = registerBlock("test2", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
-    public static final RegistryObject<Block> BOARDTEST = registerBlock("boardtest", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD)));
+    public static Substrate[] BOARDS = BlockRegistryObjectArray("board", Blocks.OAK_PLANKS, SoundType.WOOD);
+   // public static Substrate[] WOOL = BlockRegistryObjectArray("wool", Blocks.WHITE_WOOL, SoundType.WOOL);
 
-    public Substrate[] BOARD = BlockRegistryObjectArray("board", Blocks.OAK_PLANKS, SoundType.WOOD);
+   // public static Substrate[] WALLPAPER = BlockRegistryObjectArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
 
 
  /*   public static final RegistryObject<Block> WOOLTEST = registerBlock("wooltest", () -> new Block(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL).sound(SoundType.WOOL)));
