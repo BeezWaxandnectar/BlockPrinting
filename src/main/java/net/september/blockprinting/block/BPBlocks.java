@@ -12,6 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.datagen.Assembly;
+import net.september.blockprinting.datagen.Substrate;
 import net.september.blockprinting.item.BPItems;
 
 import java.util.function.Supplier;
@@ -22,12 +23,12 @@ public class BPBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, BlockPrinting.MOD_ID);
 
     public Substrate[] BlockRegistryObjectArray(String substrate, BlockBehaviour material, SoundType sound){
-        Substrate[] SubstrateArray = new Substrate[Assembly.AssembledCombinations.size()];
+        Substrate[] SubstrateArray = new Substrate[Assembly.AssembledCombinations.length];
 
             for (Assembly assembly : Assembly.AssembledCombinations){
-                RegistryObject<Block> B = registerBlock(assembly.index + "__" + assembly.swatch + "_" + assembly.style + "_" + substrate,
+                RegistryObject<Block> B = registerBlock(assembly.swatch + "_" + assembly.style + "_" + substrate,
                         () -> new Block(BlockBehaviour.Properties.copy(material).sound(sound)));
-                SubstrateArray[assembly.index] = new Substrate(B);
+                SubstrateArray[assembly.index] = new Substrate(B, assembly.index);
             }
             return SubstrateArray;
     }
@@ -70,10 +71,3 @@ public class BPBlocks {
 
 }
 
- class Substrate{
-    RegistryObject<Block> blockField;
-
-    public Substrate(RegistryObject<Block> blockField){
-        this.blockField = blockField;
-    }
-}

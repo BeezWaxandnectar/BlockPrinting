@@ -1,5 +1,6 @@
 package net.september.blockprinting.datagen;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class Assembly {
@@ -18,13 +19,13 @@ public class Assembly {
     private final Set<String> AllSwatches = Swatch.getAllSwatches();
     private final Set<String> AllStyles = FileHandler.getAllStyles();
 
-    public static Set<Assembly> AssembledCombinations;
+    public static Assembly[] AssembledCombinations;
 
     public void RunTheAssemblinator(){
         int CurrentIndex = 0;
             for (String CurrentSwatch : AllSwatches) {
                 for (String CurrentStyle : AllStyles) {
-                    AssembledCombinations.add(new Assembly(CurrentIndex, CurrentSwatch, CurrentStyle));
+                    AssembledCombinations[CurrentIndex] = new Assembly(CurrentIndex, CurrentSwatch, CurrentStyle));
                     CurrentIndex++;
                 }
             }

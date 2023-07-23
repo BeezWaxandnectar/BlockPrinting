@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.block.BPBlocks;
+import net.september.blockprinting.datagen.Substrate;
 
 import java.io.IOException;
 
@@ -74,7 +75,13 @@ public class BPBlockFactory extends BlockStateProvider{
     //v-METHODS-v//
     //###########//
 
-    protected void registerLayeredBlock(RegistryObject<Block> blockRegistryObject, Integer index, String swatchName, String Style, String Substrate) throws IOException {
+    protected void registerManyLayeredBlocks(Substrate[] SubstrateArray){
+        for (Substrate substrate : SubstrateArray){
+
+        }
+    }
+
+    protected void registerLayeredBlock(RegistryObject<Block> blockRegistryObject, Integer index, String swatchName, String Style, String substrate) throws IOException {
         Block block = blockRegistryObject.get();
 
         simpleBlockWithItem( block,
@@ -82,7 +89,7 @@ public class BPBlockFactory extends BlockStateProvider{
                         getName(block),
                         index,
                         FileHandler.getStyle(Style),
-                        FileHandler.getSubstrate(Substrate),
+                        FileHandler.getSubstrate(substrate),
                         swatchName
                 ));}
 
