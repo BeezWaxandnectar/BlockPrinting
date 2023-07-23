@@ -14,15 +14,14 @@ import net.september.blockprinting.block.BPBlocks;
 
 import java.io.IOException;
 
-
-
 public class BPBlockFactory extends BlockStateProvider{
+
+
+
     public BPBlockFactory(PackOutput output, String modid, ExistingFileHelper XFileHelper) throws IOException {
         super(output, modid, XFileHelper);
     }
     final ResourceLocation base = new  ResourceLocation("blockprinting","block/base");
-
-
 
 
     //to do list://
@@ -49,12 +48,21 @@ public class BPBlockFactory extends BlockStateProvider{
 
         registerStandardBlock(BPBlocks.BISMUTH_BLOCK);
         try {
-            registerLayeredBlock(BPBlocks.BASE, "floral", "wallpaper","tropical");
-            registerLayeredBlock(BPBlocks.TEST2, "argyle", "wallpaper","hydra");
+            registerLayeredBlock(BPBlocks.BASE,  82, "floral", "wallpaper","tropical");
+            registerLayeredBlock(BPBlocks.TEST2, 81, "argyle", "wallpaper","hydra");
+
+
+            for(Assembly assembly : Assembly.AssembledCombinations){
+                registerLayeredBlock(BPBlocks.BOARDTEST, assembly.index, assembly.swatch, assembly.style, "board");
+            }
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 
 
 
@@ -66,27 +74,29 @@ public class BPBlockFactory extends BlockStateProvider{
     //v-METHODS-v//
     //###########//
 
-    protected void registerLayeredBlock(RegistryObject<Block> blockRegistryObject, String Style, String Substrate, String swatchName) throws IOException {
+    protected void registerLayeredBlock(RegistryObject<Block> blockRegistryObject, Integer index, String swatchName, String Style, String Substrate) throws IOException {
         Block block = blockRegistryObject.get();
 
         simpleBlockWithItem( block,
                buildLayeredBlock(
                         getName(block),
+                        index,
                         FileHandler.getStyle(Style),
                         FileHandler.getSubstrate(Substrate),
                         swatchName
                 ));}
 
-    private BlockModelBuilder buildLayeredBlock(String name, ResourceLocation style, ResourceLocation substrate, String swatchName){
+    private BlockModelBuilder buildLayeredBlock(String name, Integer index, ResourceLocation style, ResourceLocation substrate, String swatchName){
 
         Swatch swatch = Swatch.getSwatch(swatchName);
         int BaseColor = swatch.BaseColor;
         int StyleColor = swatch.StyleColor;
         int SubstrateColor = swatch.SubstrateColor;
 
-        System.out.println("Building " + swatchName + " " + style + " " + substrate);
+        System.out.println("Building #" + index + substrate + " " + swatchName + " " + style);
 
         //TODO: Fix RenderType
+        //TODO: Split Substrates off of FileHandler
 
         return models().cube(name, base, base, base, base, base, base)
                 .texture("style", style)

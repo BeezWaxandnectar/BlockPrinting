@@ -21,7 +21,11 @@ public class Swatch {
 
     private static ArrayList<Swatch> SwatchList = new ArrayList<>(Arrays.asList(
             new Swatch("tropical", 0xFFF99542, 0xFF17A0A0, 0xFF001212),
-            new Swatch("hydra", 0xFF136F63, 0xFF032B43, 0xFF000012)
+            new Swatch("hydra", 0xFF136F63, 0xFF032B43, 0xFF000012),
+            new Swatch("goth", 0xFF262420, 0xFF130900, 0xFF090000),
+            new Swatch("pastel", 0xFFF4D3EE, 0xFFAFB8F7, 0xFFD083D1),
+            new Swatch("babyblue", 0xFF52aeff, 0xFF2A8FE9, 0xFF2A455D)
+
     ));
 
     public static HashMap<String, Swatch> SwatchMap;
