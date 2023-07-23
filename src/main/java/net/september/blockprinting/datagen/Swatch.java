@@ -8,7 +8,7 @@ public class Swatch {
     int StyleColor;
     int SubstrateColor;
 
-    public Swatch(String Name, int BaseColor, int StyleColor, int SubstrateColor){
+    protected Swatch(String Name, int BaseColor, int StyleColor, int SubstrateColor){
         this.Name = Name;
         this.BaseColor = BaseColor;
         this.StyleColor = StyleColor;
