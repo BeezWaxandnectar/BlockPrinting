@@ -4,7 +4,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 
 public class Substrate {
-    RegistryObject<Block> blockField;
+    public RegistryObject<Block> blockField;
     int index;
 
     public Substrate(RegistryObject<Block> blockField, int index) {

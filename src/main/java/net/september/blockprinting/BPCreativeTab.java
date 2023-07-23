@@ -8,7 +8,11 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.september.blockprinting.block.BPBlocks;
+import net.september.blockprinting.datagen.Assembly;
+import net.september.blockprinting.datagen.Substrate;
 import net.september.blockprinting.item.BPItems;
+
+import java.util.List;
 
 public class BPCreativeTab {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
@@ -19,8 +23,6 @@ public class BPCreativeTab {
                     .title(Component.translatable("bpcreativetab"))
                     .displayItems((pParameters, pOutput) -> {
 
-
-
                         pOutput.accept(BPItems.DEV_REMOTE.get());
                         pOutput.accept(BPBlocks.BISMUTH_BLOCK.get());
                         pOutput.accept(BPBlocks.BASE.get());
@@ -29,12 +31,25 @@ public class BPCreativeTab {
 
                     }).build());
 
-    public static RegistryObject<CreativeModeTab> GENERATEDBLOCKS = CREATIVE_MODE_TABS.register("bpCreativeGeneratedBlocks", () ->
+    public static RegistryObject<CreativeModeTab> GENERATEDBLOCKS = CREATIVE_MODE_TABS.register("bpcreativegeneratedblocks", () ->
             CreativeModeTab.builder().icon(() -> new ItemStack(BPBlocks.BASE.get())).withSearchBar().displayItems(((pParameters, pOutput) -> {
 
-                pOutput.accept();
+                pOutput.acceptAll(List.of(SubstrateAsItemstacks(BPBlocks.BOARDS)));
+
 
             })).build());
+
+    public static ItemStack[] SubstrateAsItemstacks(Substrate[] substrates){
+        ItemStack[] OutputArray = new ItemStack[Assembly.AssembledCombinations.length];
+        //TODO: Make it directly output a list.
+        int CurrentIndex = 0;
+        for (Substrate substrate : substrates){
+            OutputArray[CurrentIndex] = new ItemStack(substrate.blockField.get());
+            CurrentIndex++;
+        }
+
+        return OutputArray;
+    }
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

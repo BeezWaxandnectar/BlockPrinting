@@ -18,9 +18,8 @@ import java.io.IOException;
 //to do list://
 
 // Teach the provider to generate Lang files
-// Teach the provider to add an object to LootTableProvider
-// Teach the provider to read from substrate setting files?
-// Teach the provider to make every possible block.
+// proof check each individual pattern
+// Test and document every color ingame
 // Implement this shit in survival???
 // Printing press
 // Stamps / Stamp carver
@@ -48,6 +47,9 @@ public class BPBlockFactory extends BlockStateProvider{
             registerLayeredBlock(BPBlocks.TEST2, 81,"hydra", "argyle", "wallpaper");
 
             registerManyLayeredBlocks(BPBlocks.BOARDS, "board");
+
+
+
             //  registerManyLayeredBlocks(BPBlocks.WOOL, "wool");
             //  registerManyLayeredBlocks(BPBlocks.WALLPAPER, "wallpaper");
 
