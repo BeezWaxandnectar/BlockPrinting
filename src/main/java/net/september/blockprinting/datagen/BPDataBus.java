@@ -22,7 +22,7 @@ public class BPDataBus {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(true, new BPItemModelProvider(packOutput, "blockprinting", XFileHelper));
-        generator.addProvider(true, new BPBlockStateProvider(packOutput, "blockprinting", XFileHelper));
+        generator.addProvider(true, new BPBlockFactory(packOutput, "blockprinting", XFileHelper));
         generator.addProvider(true, BPLootTableProvider.create(packOutput));
     }
 }

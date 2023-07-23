@@ -86,4 +86,9 @@ public class FileHandler {
     public static ResourceLocation getStyle(String key) throws IOException {return StyleMap.get(key);}
     public static ResourceLocation getSubstrate(String key) throws IOException {return SubstrateMap.get(key);}
 
+    public static Set<String> getAllStyles() {return StyleMap.keySet();}
+    public static Set<String> getAllSubstrates() {return SubstrateMap.keySet();}
+
+
+
 }

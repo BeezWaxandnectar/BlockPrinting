@@ -6,22 +6,42 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.block.BPBlocks;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.HashMap;
 
-public class BPBlockStateProvider extends BlockStateProvider{
-    public BPBlockStateProvider(PackOutput output, String modid, ExistingFileHelper XFileHelper) throws IOException {
+
+
+public class BPBlockFactory extends BlockStateProvider{
+    public BPBlockFactory(PackOutput output, String modid, ExistingFileHelper XFileHelper) throws IOException {
         super(output, modid, XFileHelper);
     }
     final ResourceLocation base = new  ResourceLocation("blockprinting","block/base");
 
 
 
+
+    //to do list://
+
+    // Teach the provider to generate Lang files
+    // Teach the provider to add an object to LootTableProvider
+    // Teach the provider to read from substrate setting files?
+    // Teach the provider to make every possible block.
+    // Implement this shit in survival???
+            // Printing press
+            // Stamps / Stamp carver
+            //
+            // Presets - oh lord
+            // Recipes for all of the above
+
+    // WOULD BE NICE:
+
+    // Only generate blocks once they've been programmed ingame :/
+    // Teach the provider to read from divvied up Styles
 
     protected void registerStatesAndModels() {
         FileHandler.CreateMaps();
@@ -38,15 +58,13 @@ public class BPBlockStateProvider extends BlockStateProvider{
 
 
 
-
+    private void registerStandardBlock(RegistryObject<Block> block){
+        simpleBlockWithItem(block.get(), cubeAll(block.get()));
+    }
 
     //###########//
     //v-METHODS-v//
     //###########//
-
-    private void registerStandardBlock(RegistryObject<Block> block){
-        simpleBlockWithItem(block.get(), cubeAll(block.get()));
-    }
 
     protected void registerLayeredBlock(RegistryObject<Block> blockRegistryObject, String Style, String Substrate, String swatchName) throws IOException {
         Block block = blockRegistryObject.get();
@@ -107,6 +125,9 @@ public class BPBlockStateProvider extends BlockStateProvider{
     }
 
 
+    public static final DeferredRegister<Block> BLOCKS =
+            DeferredRegister.create(ForgeRegistries.BLOCKS, BlockPrinting.MOD_ID);
+
 
     //--Untouched Private Methods from the Vanilla BlockRegistryProvider--
     private String getName(Block block) { return key(block).getPath(); }
@@ -114,5 +135,6 @@ public class BPBlockStateProvider extends BlockStateProvider{
     private ResourceLocation key(Block block) {
         return ForgeRegistries.BLOCKS.getKey(block);
     }
+
 
 }

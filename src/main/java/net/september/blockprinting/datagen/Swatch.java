@@ -1,9 +1,6 @@
 package net.september.blockprinting.datagen;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Swatch {
     String Name;
@@ -43,15 +40,9 @@ public class Swatch {
         SwatchMap = NewMap();
     }
 
-    public static Swatch getSwatch(String key) {
-        if (SwatchMap.containsKey(key)){
-            System.out.println("The Key is in there!");
-        } else {
-            System.out.println("No keys like that here");
-        }
+    public static Swatch getSwatch(String key) {return SwatchMap.get(key);}
 
-        return SwatchMap.get(key);
-    }
+    public static Set<String> getAllSwatches() {return SwatchMap.keySet();}
 
 
 
