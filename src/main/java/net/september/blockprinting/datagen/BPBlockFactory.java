@@ -43,10 +43,11 @@ public class BPBlockFactory extends BlockStateProvider{
 
         registerStandardBlock(BPBlocks.BISMUTH_BLOCK);
         try {
-            registerLayeredBlock(BPBlocks.BASE,  82,"tropical", "floral", "wallpaper");
-            registerLayeredBlock(BPBlocks.TEST2, 81,"hydra", "argyle", "wallpaper");
+            //registerLayeredBlock(BPBlocks.BASE,  82,"tropical", "floral", "wallpaper");
+            //registerLayeredBlock(BPBlocks.TEST2, 81,"hydra", "argyle", "wallpaper");
 
-            registerManyLayeredBlocks(BPBlocks.BOARDS, "board");
+           // registerManyLayeredBlocks(BPBlocks.BOARDS, "board");
+            registerManyLayeredBlocks(BPBlocks.WALLPAPER, "board");
 
 
 

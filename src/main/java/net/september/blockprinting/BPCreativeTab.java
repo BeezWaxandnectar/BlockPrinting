@@ -25,16 +25,17 @@ public class BPCreativeTab {
 
                         pOutput.accept(BPItems.DEV_REMOTE.get());
                         pOutput.accept(BPBlocks.BISMUTH_BLOCK.get());
-                        pOutput.accept(BPBlocks.BASE.get());
-                        pOutput.accept(BPBlocks.TEST2.get());
+                        //pOutput.accept(BPBlocks.BASE.get());
+                        //pOutput.accept(BPBlocks.TEST2.get());
 
 
                     }).build());
 
     public static RegistryObject<CreativeModeTab> GENERATEDBLOCKS = CREATIVE_MODE_TABS.register("bpcreativegeneratedblocks", () ->
-            CreativeModeTab.builder().icon(() -> new ItemStack(BPBlocks.BASE.get())).withSearchBar().displayItems(((pParameters, pOutput) -> {
+            CreativeModeTab.builder().icon(() -> new ItemStack(BPBlocks.BISMUTH_BLOCK.get())).withSearchBar().displayItems(((pParameters, pOutput) -> {
 
-                pOutput.acceptAll(List.of(SubstrateAsItemstacks(BPBlocks.BOARDS)));
+                //pOutput.acceptAll(List.of(SubstrateAsItemstacks(BPBlocks.BOARDS)));
+                pOutput.acceptAll(List.of(SubstrateAsItemstacks(BPBlocks.WALLPAPER)));
 
 
             })).build());

@@ -41,12 +41,13 @@ public class BPBlocks {
 
 
     public static final RegistryObject<Block> BISMUTH_BLOCK = registerBlock("bismuth_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.TUFF).sound(SoundType.TUFF)));
-    public static final RegistryObject<Block> BASE = registerBlock("base", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
-    public static final RegistryObject<Block> TEST2 = registerBlock("test2", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
-    public static Substrate[] BOARDS = BlockRegistryObjectArray("board", Blocks.OAK_PLANKS, SoundType.WOOD);
-   // public static Substrate[] WOOL = BlockRegistryObjectArray("wool", Blocks.WHITE_WOOL, SoundType.WOOL);
+    //public static final RegistryObject<Block> BASE = registerBlock("base", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
+    //public static final RegistryObject<Block> TEST2 = registerBlock("test2", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
 
-   // public static Substrate[] WALLPAPER = BlockRegistryObjectArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
+    //public static Substrate[] BOARDS = BlockRegistryObjectArray("board", Blocks.OAK_PLANKS, SoundType.WOOD);
+    // public static Substrate[] WOOL = BlockRegistryObjectArray("wool", Blocks.WHITE_WOOL, SoundType.WOOL);
+
+   public static Substrate[] WALLPAPER = BlockRegistryObjectArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
 
 
  /*   public static final RegistryObject<Block> WOOLTEST = registerBlock("wooltest", () -> new Block(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL).sound(SoundType.WOOL)));
