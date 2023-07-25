@@ -1,9 +1,9 @@
 {
   "bpcreativetab": "Block Printing Devtab",
 
-  "item.blockprinting.dev_remote": "Developer's Remote",
+  "blockprinting:item/dev_remote": "Developer's Remote",
+  "item.blockprinting.magic_inkwell": "Magic Inkwell",
 
   "block.blockprinting.bismuth_block": "Bismuth Block"
-
 
 }
