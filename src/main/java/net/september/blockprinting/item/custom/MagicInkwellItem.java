@@ -44,9 +44,6 @@ public class MagicInkwellItem extends Item {
             }
 
             @NotNull InteractionResultHolder<ItemStack> InteractionResultHolder;
-            ;
-
-
         }
         return net.minecraft.world.InteractionResultHolder.success(Inkwell);
     }

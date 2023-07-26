@@ -23,7 +23,6 @@ public class Swatch {
             new Swatch("tropical", 0xFFF99542, 0xFF17A0A0, 0xffca8b5c),
             new Swatch("hydra", 0xFF136F63, 0xFF032B43, 0xff386653),
 
-            /*
 
             new Swatch("pitch", 0xFF262420, 0xFF130900, 0xff090000),
             new Swatch("pastel", 0xFFF4D3EE, 0xFFAFB8F7, 0xffe7b0ff),
@@ -53,8 +52,8 @@ public class Swatch {
             new Swatch("rose", 0xFFce5f70, 0xFFb03d4d, 0xffca3e4d),
             new Swatch("violet", 0xFFbf678f, 0xFF542d61, 0xff875184),
             new Swatch("spring", 0xFFd4f4dd, 0xFF17bebb, 0xffb0ffd6),
-            new Swatch("winter", 0xFFffffff, 0xFFd8ebea, 0xffffffff),
-            new Swatch("quartz", 0xFFe6e2db, 0xFFc3b6a8, 0xfffff8cb),
+            new Swatch("winter", 0xFFf4fafb, 0xFFd8ebea, 0xffffffff),
+            new Swatch("quartz", 0xFFe1ddd6, 0xFFc3b6a8, 0xfffff8cb),
             new Swatch("fearne", 0xFF949e84, 0xFF4f6356, 0xff999965),
             new Swatch("goth", 0xFF534b52, 0xFF2d232e, 0xff402947),
             new Swatch("aether", 0xFFebfeff, 0xFF71cdff, 0xffd1dbc5),
@@ -62,7 +61,6 @@ public class Swatch {
             new Swatch("navy", 0xFF011232, 0xFF010713, 0xff0a0c1c),
             new Swatch("indigo", 0xFF453f78, 0xFF2e3156, 0xff19195a),
 
-             */
 
             new Swatch("cerulean", 0xFF52aeff, 0xFF374e74, 0xff01bad)
 
