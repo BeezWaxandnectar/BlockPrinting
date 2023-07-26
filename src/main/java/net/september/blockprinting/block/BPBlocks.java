@@ -23,7 +23,7 @@ public class BPBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, BlockPrinting.MOD_ID);
 
-    public static Substrate @NotNull [] BlockRegistryObjectArray(String substrate, BlockBehaviour material, SoundType sound){
+    public static Substrate @NotNull [] SubstrateArray(String substrate, BlockBehaviour material, SoundType sound){
         Substrate[] SubstrateArray = new Substrate[Assembly.AssembledCombinations.length];
         int CurrentIndex = 0;
             for (Assembly assembly : Assembly.AssembledCombinations){
@@ -47,7 +47,7 @@ public class BPBlocks {
     //public static Substrate[] BOARDS = BlockRegistryObjectArray("board", Blocks.OAK_PLANKS, SoundType.WOOD);
     // public static Substrate[] WOOL = BlockRegistryObjectArray("wool", Blocks.WHITE_WOOL, SoundType.WOOL);
 
-   public static Substrate[] WALLPAPER = BlockRegistryObjectArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
+   public static Substrate[] WALLPAPER = SubstrateArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
 
 
  /*   public static final RegistryObject<Block> WOOLTEST = registerBlock("wooltest", () -> new Block(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL).sound(SoundType.WOOL)));

@@ -1,24 +1,32 @@
 package net.september.blockprinting.item.custom;
 
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.color.item.ItemColors;
-import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.LevelEvent;
-import net.minecraft.world.level.block.SoundType;
+import net.september.blockprinting.util.BPInventoryUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class MagicInkwellItem extends Item {
 
-    public static final int MAX_DYE_STORAGE = 2048;
+    public static final int MAX_DYE_STORAGE = 4096;
+
+
+    public static int CURRENT_LOADED_DYE = 0;
+
+
+
+    CompoundTag CurrentDyeStorage = new CompoundTag();
+
+
 
 
     public MagicInkwellItem(Properties pProperties) {
@@ -26,28 +34,44 @@ public class MagicInkwellItem extends Item {
     }
 
 
-
-
-
-
-
     @Override
-    public @NotNull InteractionResult useOn(UseOnContext pContext) {
-        if(!pContext.getLevel().isClientSide()) {
-            Player player = pContext.getPlayer();
-            assert player != null;
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        ItemStack Inkwell = player.getItemInHand(InteractionHand.MAIN_HAND);
+        if (!level.isClientSide()) {
 
-            player.playSound(SoundEvent.createFixedRangeEvent(new ResourceLocation("minecraft", "block.brewing_stand.brew"), 6f));
+            if (BPInventoryUtil.PlayerHasDyeItem(player)) {
+                addDyeToInkwell(player);
+            }
 
-
+            @NotNull InteractionResultHolder<ItemStack> InteractionResultHolder;
+            ;
 
 
         }
-        ;
-        return InteractionResult.SUCCESS;
+        return net.minecraft.world.InteractionResultHolder.success(Inkwell);
     }
 
 
 
+
+    private void addDyeToInkwell(@NotNull Player player){
+        ItemStack Inkwell = player.getItemInHand(InteractionHand.MAIN_HAND);
+        int FirstDyeIndex = BPInventoryUtil.getFirstDyeItem(player);
+
+        ItemStack FirstDyeItem = player.getInventory().getItem(FirstDyeIndex);
+
+        FirstDyeItem.shrink(1);
+
+
+
+    }
+
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+
+
+    }
 }
 

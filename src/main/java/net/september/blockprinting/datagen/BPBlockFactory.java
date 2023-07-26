@@ -17,7 +17,6 @@ import java.io.IOException;
 
 //to do list://
 
-// Teach the provider to generate Lang files
 // proof check each individual pattern
 // Test and document every color ingame
 // Implement this shit in survival???

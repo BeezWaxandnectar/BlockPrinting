@@ -70,6 +70,7 @@ public class BlockPrinting
         generator.addProvider(true, new BPItemModelProvider(packOutput, "blockprinting", XFileHelper));
         generator.addProvider(true, new BPBlockFactory(packOutput, "blockprinting", XFileHelper));
         generator.addProvider(true, BPLootTableProvider.create(packOutput));
+        generator.addProvider(true, new BPLang(packOutput, "blockprinting", "en_us"));
     }
     private void addCreative(BuildCreativeModeTabContentsEvent event) {}
 
