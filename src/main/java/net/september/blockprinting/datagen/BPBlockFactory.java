@@ -22,6 +22,7 @@ import java.io.IOException;
 // Implement this shit in survival???
 // Printing press
 // Stamps / Stamp carver
+// FIX SUBSTRATE SHADING
 //
 // Presets - oh lord
 // Recipes for all of the above

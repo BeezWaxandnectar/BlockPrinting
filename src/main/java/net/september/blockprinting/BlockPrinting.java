@@ -4,12 +4,18 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,6 +26,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.september.blockprinting.block.BPBlocks;
 import net.september.blockprinting.datagen.*;
+import net.september.blockprinting.dyesystem.PlayerDyeProvider;
 import net.september.blockprinting.item.BPItems;
 import org.slf4j.Logger;
 
@@ -51,7 +58,6 @@ public class BlockPrinting
 
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
-        modEventBus.addListener(this::addCreative);
     }
 
 
@@ -72,7 +78,6 @@ public class BlockPrinting
         generator.addProvider(true, BPLootTableProvider.create(packOutput));
         generator.addProvider(true, new BPLang(packOutput, "blockprinting", "en_us"));
     }
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {}
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
@@ -84,8 +89,6 @@ public class BlockPrinting
     {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
-        {
-
-        }
+        {}
     }
 }

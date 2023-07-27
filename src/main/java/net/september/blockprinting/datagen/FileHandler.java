@@ -54,11 +54,6 @@ public class FileHandler {
         return fileSet;
     }
 
-    static String StringerBell(Path input){
-        //placeholder string manipulator
-        return String.valueOf(input);
-    }
-
     public static HashMap<String, ResourceLocation> NewMap(String folder) throws IOException {
         Set<String> TextureNames = TextureNames(folder);
         System.out.println("NewMap activates for " + folder);

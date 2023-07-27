@@ -23,6 +23,7 @@ public class Swatch {
             new Swatch("tropical", 0xFFF99542, 0xFF17A0A0, 0xffca8b5c),
             new Swatch("hydra", 0xFF136F63, 0xFF032B43, 0xff386653),
 
+            /*
 
             new Swatch("pitch", 0xFF262420, 0xFF130900, 0xff090000),
             new Swatch("pastel", 0xFFF4D3EE, 0xFFAFB8F7, 0xffe7b0ff),
@@ -61,6 +62,7 @@ public class Swatch {
             new Swatch("navy", 0xFF011232, 0xFF010713, 0xff0a0c1c),
             new Swatch("indigo", 0xFF453f78, 0xFF2e3156, 0xff19195a),
 
+            */
 
             new Swatch("cerulean", 0xFF52aeff, 0xFF374e74, 0xff01bad)
 

@@ -9,7 +9,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.september.blockprinting.util.BPInventoryUtil;
+import net.september.blockprinting.dyesystem.DyeSystem;
+import net.september.blockprinting.dyesystem.PlayerDyeProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,16 +18,7 @@ import java.util.List;
 
 public class MagicInkwellItem extends Item {
 
-    public static final int MAX_DYE_STORAGE = 4096;
-
-
-    public static int CURRENT_LOADED_DYE = 0;
-
-
-
     CompoundTag CurrentDyeStorage = new CompoundTag();
-
-
 
 
     public MagicInkwellItem(Properties pProperties) {
@@ -35,38 +27,55 @@ public class MagicInkwellItem extends Item {
 
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack Inkwell = player.getItemInHand(InteractionHand.MAIN_HAND);
         if (!level.isClientSide()) {
 
-            if (BPInventoryUtil.PlayerHasDyeItem(player)) {
-                addDyeToInkwell(player);
+            if (PlayerDyeProvider.PlayerHasDyeItem(player) && !player.isShiftKeyDown()) {
+                addDyeToInkwell(Inkwell, player);
             }
 
-            @NotNull InteractionResultHolder<ItemStack> InteractionResultHolder;
+            if (player.isShiftKeyDown()){
+                removeDye(Inkwell, player);
+            }
         }
         return net.minecraft.world.InteractionResultHolder.success(Inkwell);
     }
 
+    public void addDyeToInkwell(ItemStack Inkwell, Player player){
+        CompoundTag storedInk = Inkwell.getOrCreateTag();
+        if(storedInk.getInt("storedInk") < 2048) {
+            int FirstDyeIndex = DyeSystem.getFirstDyeItem(player);
+            player.getInventory().getItem(FirstDyeIndex).shrink(1);
 
+            int before = storedInk.getInt("storedInk");
+            int after = before + 1;
+            storedInk.putInt("storedInk", after);
+        }
+            player.sendSystemMessage(Component.nullToEmpty("Stored Ink: " + (storedInk.getInt("storedInk"))));
+        }
 
+        public void removeDye(ItemStack Inkwell, Player player){
+        CompoundTag storedInk = Inkwell.getTag();
+        if (storedInk != null) {
+            int HeldInk = storedInk.getInt("storedInk");
+            int after = HeldInk - 1;
+            storedInk.putInt("storedInk", after);
 
-    private void addDyeToInkwell(@NotNull Player player){
-        ItemStack Inkwell = player.getItemInHand(InteractionHand.MAIN_HAND);
-        int FirstDyeIndex = BPInventoryUtil.getFirstDyeItem(player);
+            if (after == 0){
+                Inkwell.deserializeNBT(storedInk);
+            }
+        } else {
+            player.sendSystemMessage(Component.nullToEmpty("No more dye!"));
+        }
 
-        ItemStack FirstDyeItem = player.getInventory().getItem(FirstDyeIndex);
-
-        FirstDyeItem.shrink(1);
-
-
-
-    }
+        }
 
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+
 
 
     }
