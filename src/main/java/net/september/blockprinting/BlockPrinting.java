@@ -1,6 +1,8 @@
 package net.september.blockprinting;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -9,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -27,6 +30,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.september.blockprinting.block.BPBlocks;
 import net.september.blockprinting.datagen.*;
 import net.september.blockprinting.dyesystem.PlayerDyeProvider;
+import net.september.blockprinting.item.BPItemProperties;
 import net.september.blockprinting.item.BPItems;
 import org.slf4j.Logger;
 
@@ -73,7 +77,7 @@ public class BlockPrinting
         ExistingFileHelper XFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(true, new BPItemModelProvider(packOutput, "blockprinting", XFileHelper));
+        generator.addProvider(true, new BPItemModelProvider(packOutput, XFileHelper));
         generator.addProvider(true, new BPBlockFactory(packOutput, "blockprinting", XFileHelper));
         generator.addProvider(true, BPLootTableProvider.create(packOutput));
         generator.addProvider(true, new BPLang(packOutput, "blockprinting", "en_us"));
@@ -90,5 +94,11 @@ public class BlockPrinting
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {}
+
+        @SubscribeEvent
+        public static void onModelRegister(ModelEvent.RegisterAdditional event){
+            BPItemProperties.init((itemLike, resourceLocation, clampedItemPropertyFunction) -> ItemProperties.register(itemLike.asItem(), resourceLocation, clampedItemPropertyFunction));
+        }
+
     }
 }

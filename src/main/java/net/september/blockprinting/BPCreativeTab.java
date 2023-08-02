@@ -19,13 +19,14 @@ public class BPCreativeTab {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, BlockPrinting.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> BP_TAB = CREATIVE_MODE_TABS.register("bpcreativetab", () ->
-            CreativeModeTab.builder().icon(() -> new ItemStack(BPItems.DEV_REMOTE.get()))
+            CreativeModeTab.builder().icon(() -> new ItemStack(BPItems.MAGIC_INKWELL.get()))
                     .title(Component.translatable("bpcreativetab"))
                     .displayItems((pParameters, pOutput) -> {
 
                         pOutput.accept(BPItems.DEV_REMOTE.get());
                         pOutput.accept(BPItems.MAGIC_INKWELL.get());
                         pOutput.accept(BPBlocks.BISMUTH_BLOCK.get());
+                        pOutput.accept(BPBlocks.PRINTING_PRESS.get());
                         //pOutput.accept(BPBlocks.BASE.get());
                         //pOutput.accept(BPBlocks.TEST2.get());
 

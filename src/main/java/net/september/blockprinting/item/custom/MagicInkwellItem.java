@@ -11,6 +11,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.september.blockprinting.dyesystem.DyeSystem;
 import net.september.blockprinting.dyesystem.PlayerDyeProvider;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,41 +44,53 @@ public class MagicInkwellItem extends Item {
     }
 
     public void addDyeToInkwell(ItemStack Inkwell, Player player){
-        CompoundTag storedInk = Inkwell.getOrCreateTag();
+        CompoundTag storedInk = Inkwell.getOrCreateTagElement("storedInk");
         if(storedInk.getInt("storedInk") < 2048) {
             int FirstDyeIndex = DyeSystem.getFirstDyeItem(player);
             player.getInventory().getItem(FirstDyeIndex).shrink(1);
-
             int before = storedInk.getInt("storedInk");
             int after = before + 1;
+
             storedInk.putInt("storedInk", after);
         }
             player.sendSystemMessage(Component.nullToEmpty("Stored Ink: " + (storedInk.getInt("storedInk"))));
         }
 
         public void removeDye(ItemStack Inkwell, Player player){
-        CompoundTag storedInk = Inkwell.getTag();
+        CompoundTag storedInk = Inkwell.getTagElement("storedInk");
         if (storedInk != null) {
             int HeldInk = storedInk.getInt("storedInk");
             int after = HeldInk - 1;
             storedInk.putInt("storedInk", after);
 
-            if (after == 0){
-                Inkwell.deserializeNBT(storedInk);
+            if (storedInk.getInt("storedInk") == 0){
+                storedInk.remove("storedInk");
             }
         } else {
             player.sendSystemMessage(Component.nullToEmpty("No more dye!"));
-        }
+        }}
 
-        }
+    public static boolean hasDye(ItemStack Inkwell){
+        CompoundTag storedInk = Inkwell.getTagElement("storedInk");
+        return storedInk != null;
+    }
 
+
+    public static void cycleLoadedColor(ItemStack Inkwell, boolean Inverse){
+        CompoundTag currentLoadedColor = Inkwell.getOrCreateTagElement("currentLoadedColor");
+
+
+
+    }
+
+    public static int currentLoadedColor(ItemStack Inkwell){
+        CompoundTag currentLoadedColor = Inkwell.getOrCreateTagElement("currentLoadedColor");
+        return currentLoadedColor.getInt("currentLoadedColor");
+    }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-
-
-
     }
 }
 

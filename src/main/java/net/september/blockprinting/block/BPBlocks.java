@@ -41,6 +41,7 @@ public class BPBlocks {
 
 
     public static final RegistryObject<Block> BISMUTH_BLOCK = registerBlock("bismuth_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.TUFF).sound(SoundType.TUFF)));
+    public static final RegistryObject<Block> PRINTING_PRESS = registerBlock("printing_press", () -> new Block(BlockBehaviour.Properties.copy(Blocks.JUNGLE_WOOD).sound(SoundType.WOOD)));
     //public static final RegistryObject<Block> BASE = registerBlock("base", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
     //public static final RegistryObject<Block> TEST2 = registerBlock("test2", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
 

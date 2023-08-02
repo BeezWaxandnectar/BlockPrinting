@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "blockprinting:item/inkwell/magic_inkwell_empty",
+      "predicate": {
+        "blockprinting:containsink": 0.0
+      }
+    }
+  ],
+
+  "textures": {
+    "layer0": "blockprinting:item/inkwell/magic_inkwell"
+  }
+}
