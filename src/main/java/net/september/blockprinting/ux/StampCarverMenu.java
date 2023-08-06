@@ -1,6 +1,9 @@
 package net.september.blockprinting.ux;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -16,6 +19,8 @@ import net.september.blockprinting.block.entity.StampCarverBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public class StampCarverMenu extends AbstractContainerMenu {
     private static final int HOTBAR_SLOT_COUNT = 9;
     private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
@@ -28,29 +33,36 @@ public class StampCarverMenu extends AbstractContainerMenu {
     public StampCarverBlockEntity blockEntity;
     public static Level level;
     public static ContainerData data;
+    //private final ContainerLevelAccess access;
+
+    public final Container container = new SimpleContainer(1) {
+        public void setChanged() {
+            super.setChanged();
+            StampCarverMenu.this.slotsChanged(this);
+            StampCarverMenu.this.slotUpdateListener.run();
+        }
+    };
 
 
     //#######//
     //METHODS//
     //#######//
 
-    protected StampCarverMenu(MenuType<?> pMenuType, int pContainerId) {
-        super(pMenuType, pContainerId);
-    }
-
-    public StampCarverMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
+    public StampCarverMenu(int id, Inventory inv, FriendlyByteBuf buf) {
         this(
                 id,
                 inv,
-                new StampCarverBlockEntity(extraData.readBlockPos(), level.getBlockState(extraData.readBlockPos())),
-                //level.getBlockEntity(extraData.readBlockPos()),
+                //StampCarverBlockEntity(extraData.readBlockPos(), level.getBlockState(extraData.readBlockPos())),
+                level.getBlockEntity(buf.readBlockPos()),
                 new SimpleContainerData(1));
     }
+
+
     public StampCarverMenu(int id, Inventory inv, @NotNull BlockEntity entity, ContainerData data ) {
         super(BPMenuTypes.STAMP_CARVER_MENU.get(), id);
         checkContainerSize(inv, 2);
         blockEntity = (StampCarverBlockEntity) entity;
-        level = entity.getLevel();
+        this.level = inv.player.level();
         StampCarverMenu.data = data;
 
         addPlayerInventory(inv);
@@ -63,13 +75,11 @@ public class StampCarverMenu extends AbstractContainerMenu {
 
         addDataSlots(data);}
 
-
-
-
+    @ParametersAreNonnullByDefault
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int index) {
+    public @NotNull ItemStack quickMoveStack(Player playerIn, int index) {
         Slot sourceSlot = slots.get(index);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;
+        if (!sourceSlot.hasItem()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getItem();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
@@ -111,6 +121,13 @@ public class StampCarverMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144));
         }
+    }
+
+    Runnable slotUpdateListener = () -> {
+    };
+
+    public void registerUpdateListener(Runnable pListener) {
+        this.slotUpdateListener = pListener;
     }
 
 }

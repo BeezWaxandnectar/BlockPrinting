@@ -17,6 +17,7 @@ public class StampCarverScreen extends AbstractContainerScreen<StampCarverMenu> 
 
     public StampCarverScreen(StampCarverMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
+      //  pMenu.registerUpdateListener(this::containerChanged);
     }
 
     @Override
@@ -70,9 +71,21 @@ public class StampCarverScreen extends AbstractContainerScreen<StampCarverMenu> 
     }
 
     private void renderNavButtons(GuiGraphics pGuiGraphics, int x, int y, String direction, int index) {
-        pGuiGraphics.blit(TextureLoc, x + NavPlacer(index), y + 65, SidedArrowSpriteFinder(direction), 0, 8, 16);
+        pGuiGraphics.blit(TextureLoc, x + NavPlacer(index), y + 65,
+                SidedArrowSpriteFinder(direction), 0, 8, 16);
+    }
+/*
+
+    private void containerChanged() {
+        this.displayRecipes = this.menu.();
+        if (!this.displayRecipes) {
+            this.scrollOffs = 0.0F;
+            this.startIndex = 0;
+        }
+
     }
 
+*/
 
 
 }

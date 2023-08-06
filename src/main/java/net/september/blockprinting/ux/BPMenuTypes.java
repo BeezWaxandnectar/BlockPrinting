@@ -19,7 +19,8 @@ public class BPMenuTypes {
     public static RegistryObject<MenuType<StampCarverMenu>> STAMP_CARVER_MENU =
             registerMenuType(StampCarverMenu::new, "stamp_carver_menu");
 
-    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
+    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(
+            IContainerFactory<T> factory, String name) {
         System.out.println("Registering Menu with the following Parameters: " + factory + ", " + name);
         return MENUS.register(name, () -> IForgeMenuType.create(factory));
     }
