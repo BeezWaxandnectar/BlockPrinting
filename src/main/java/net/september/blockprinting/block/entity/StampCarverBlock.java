@@ -79,14 +79,18 @@ public class StampCarverBlock extends BaseEntityBlock {
     }
 
 
-   /* @ParametersAreNonnullByDefault
+    //##########################//
+    //This method is the problem//
+    //VVVVVVVVVVVVVVVVVVVVVVVVVV//
+
+    @ParametersAreNonnullByDefault
     public MenuProvider getMenuProvider(BlockState pState, Level pLevel, BlockPos pPos) {
-        FriendlyByteBuf PosBuf = new FriendlyByteBuf();
+        FriendlyByteBuf PosBuf = new FriendlyByteBuf(); //What do I pass in here? It wants a ByteBuf but that's an abstract class.
         PosBuf.writeBlockPos(pPos);
 
-        return new SimpleMenuProvider((id, inv, player) ->{
-            new StampCarverMenu(id, inv, PosBuf), Component.literal(" ")});
-    }*/
+        return new SimpleMenuProvider((id, inv, player) ->
+                new StampCarverMenu(id, inv, PosBuf), Component.literal(" "));
+    }
 
     @Override
     @ParametersAreNonnullByDefault

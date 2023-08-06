@@ -55,6 +55,7 @@ public class StampCarverMenu extends AbstractContainerMenu {
                 //StampCarverBlockEntity(extraData.readBlockPos(), level.getBlockState(extraData.readBlockPos())),
                 level.getBlockEntity(buf.readBlockPos()),
                 new SimpleContainerData(1));
+        System.out.println("FriendlyByteBuf: " + buf);
     }
 
 
@@ -67,6 +68,7 @@ public class StampCarverMenu extends AbstractContainerMenu {
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
+        System.out.println("ContainerData: " + data);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
             this.addSlot(new SlotItemHandler(handler, 0, 8, 59));
