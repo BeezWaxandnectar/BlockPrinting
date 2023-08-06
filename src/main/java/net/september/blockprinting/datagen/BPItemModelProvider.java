@@ -45,6 +45,13 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
     @Override
     protected void registerModels() {
 
+        //To use default Forge Provider//
+        basicItem(BPItems.DEV_REMOTE.get());
+        basicItem(BPItems.STAMP.get());
+        basicItem(BPItems.THUMBSUP.get());
+
+
+
     }
 
     @Override
@@ -53,6 +60,7 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
                 BlockPrinting.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(i).getNamespace())).collect(Collectors.toSet());
         Map<ResourceLocation, Supplier<JsonElement>> map = new HashMap<>();
         registerModels(items, map::put);
+        registerModels();
 
         PackOutput.PathProvider modelPathProvider = packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models");
         List<CompletableFuture<?>> output = new ArrayList<>();

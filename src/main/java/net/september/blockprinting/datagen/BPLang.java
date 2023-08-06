@@ -10,15 +10,12 @@ import net.september.blockprinting.block.BPBlocks;
 import net.september.blockprinting.item.BPItems;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
-
 public class BPLang extends LanguageProvider {
 
    public BPLang(PackOutput output, String modid, String locale) {
       super(output, modid, locale);
    }
 
-   //block.blockprinting.quartz_panelopera_wallpaper -> Quartz Panelopera Wallpaper
 
    public String[] decomposename(@NotNull RegistryObject<Block> block) {
       String[] assembly = new String[3];
@@ -49,9 +46,11 @@ public class BPLang extends LanguageProvider {
    @Override
    protected void addTranslations() {
 
+
+
       addManyBlocks(BPBlocks.WALLPAPER);
 
-      // --- non-Datagen --- //
+      // --- non-Procedural --- //
 
       addBlock(BPBlocks.BISMUTH_BLOCK, "Bismuth Block");
 
@@ -59,6 +58,9 @@ public class BPLang extends LanguageProvider {
 
       addItem(BPItems.DEV_REMOTE, "Developer's Remote");
       addItem(BPItems.MAGIC_INKWELL, "Magic Inkwell");
+      addItem(BPItems.STAMP, "Stamp");
+      addBlock(BPBlocks.PRINTING_PRESS, "Printing Press");
+      addBlock(BPBlocks.STAMP_CARVER, "Stamp Carver");
 
 
    }

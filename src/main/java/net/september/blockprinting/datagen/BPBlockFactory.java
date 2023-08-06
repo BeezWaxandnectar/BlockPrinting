@@ -21,7 +21,7 @@ import java.io.IOException;
 // Test and document every color ingame
 // Implement this shit in survival???
 // Printing press
-// Stamps / Stamp carver
+// Stamps
 // FIX SUBSTRATE SHADING
 //
 // Presets - oh lord
@@ -30,6 +30,7 @@ import java.io.IOException;
 // WOULD BE NICE:
 
 // Only generate blocks once they've been programmed ingame :/
+// Pin Patterns to the stamp carver
 // Teach the provider to read from divvied up Styles
 
 public class BPBlockFactory extends BlockStateProvider{

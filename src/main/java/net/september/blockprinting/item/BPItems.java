@@ -14,6 +14,8 @@ public class BPItems {
 
 
     public static final RegistryObject<Item> DEV_REMOTE = ITEMS.register("dev_remote", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> STAMP = ITEMS.register("stamp", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> THUMBSUP = ITEMS.register("thumbsup", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> MAGIC_INKWELL = ITEMS.register("magic_inkwell", () -> new MagicInkwellItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus){ITEMS.register(eventBus);}

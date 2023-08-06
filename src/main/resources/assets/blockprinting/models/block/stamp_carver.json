@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "front": "blockprinting:block/stamp_carver_side",
+    "side": "blockprinting:block/stamp_carver_side",
+    "top": "blockprinting:block/stamp_carver_top",
+    "bottom": "blockprinting:block/stamp_carver_bottom"
+  }
+}

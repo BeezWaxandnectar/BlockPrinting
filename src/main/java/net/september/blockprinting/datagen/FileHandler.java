@@ -17,6 +17,7 @@ public class FileHandler {
 
     public FileHandler() throws IOException {
     }
+    //I don't know why I have to do it like this, but I do.
     static String LoserDir = System.getProperty("user.dir");
     static String UserDir = LoserDir.substring(0, (LoserDir.length()-4));
 
@@ -60,7 +61,7 @@ public class FileHandler {
         HashMap<String, ResourceLocation> NewMap = new HashMap<>();
 
 
-        TextureNames.forEach(key -> NewMap.put(key, new ResourceLocation("blockprinting", folder.substring(50) + (key))));
+        TextureNames.forEach(key -> NewMap.put(key, new ResourceLocation(BlockPrinting.MOD_ID, folder.substring(50) + (key))));
         System.out.println(" > Final Map Contents: " + NewMap);
         return NewMap;
     }

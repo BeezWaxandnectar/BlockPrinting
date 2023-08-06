@@ -24,9 +24,12 @@ public class BPCreativeTab {
                     .displayItems((pParameters, pOutput) -> {
 
                         pOutput.accept(BPItems.DEV_REMOTE.get());
+                        pOutput.accept(BPItems.STAMP.get());
+                        pOutput.accept(BPItems.THUMBSUP.get());
                         pOutput.accept(BPItems.MAGIC_INKWELL.get());
                         pOutput.accept(BPBlocks.BISMUTH_BLOCK.get());
                         pOutput.accept(BPBlocks.PRINTING_PRESS.get());
+                        pOutput.accept(BPBlocks.STAMP_CARVER.get());
                         //pOutput.accept(BPBlocks.BASE.get());
                         //pOutput.accept(BPBlocks.TEST2.get());
 

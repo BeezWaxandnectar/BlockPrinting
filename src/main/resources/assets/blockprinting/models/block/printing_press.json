@@ -3,7 +3,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "blockprinting:block/printing_press",
-		"particle": "blockprinting:block/printing_press"
+		"particle": "minecraft:block/jungle_planks"
 	},
 	"elements": [
 		{

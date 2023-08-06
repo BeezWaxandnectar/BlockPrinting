@@ -2,6 +2,7 @@ package net.september.blockprinting;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -10,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,10 +30,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.september.blockprinting.block.BPBlocks;
+import net.september.blockprinting.block.entity.BPBlockEntities;
 import net.september.blockprinting.datagen.*;
 import net.september.blockprinting.dyesystem.PlayerDyeProvider;
 import net.september.blockprinting.item.BPItemProperties;
 import net.september.blockprinting.item.BPItems;
+import net.september.blockprinting.ux.BPMenuTypes;
+import net.september.blockprinting.ux.StampCarverScreen;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -42,9 +47,7 @@ import java.util.concurrent.CompletableFuture;
 @Mod.EventBusSubscriber(modid = BlockPrinting.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlockPrinting
 {
-    // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "blockprinting";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public BlockPrinting()
@@ -53,6 +56,9 @@ public class BlockPrinting
 
         FileHandler.CreateMaps();
         Swatch.CreateSwatchMap();
+
+        BPBlockEntities.register(modEventBus);
+        BPMenuTypes.register(modEventBus);
 
         Assembly.RunTheAssemblinator();
 
@@ -86,15 +92,13 @@ public class BlockPrinting
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {}
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {}
-
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            MenuScreens.register(BPMenuTypes.STAMP_CARVER_MENU.get(), StampCarverScreen::new);
+            System.out.println("Detected Carver: " + BPBlockEntities.STAMP_CARVER.get());
+        }
         @SubscribeEvent
         public static void onModelRegister(ModelEvent.RegisterAdditional event){
             BPItemProperties.init((itemLike, resourceLocation, clampedItemPropertyFunction) -> ItemProperties.register(itemLike.asItem(), resourceLocation, clampedItemPropertyFunction));
