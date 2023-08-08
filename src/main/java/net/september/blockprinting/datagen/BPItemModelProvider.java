@@ -42,17 +42,7 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
     }
 
 
-    @Override
-    protected void registerModels() {
 
-        //To use default Forge Provider//
-        basicItem(BPItems.DEV_REMOTE.get());
-        basicItem(BPItems.STAMP.get());
-        basicItem(BPItems.THUMBSUP.get());
-
-
-
-    }
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
@@ -73,7 +63,15 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
     }
 
 
+    @Override
+    protected void registerModels() {
 
+        //To use default Forge Provider//
+        basicItem(BPItems.DEV_REMOTE.get());
+        basicItem(BPItems.STAMP.get());
+        basicItem(BPItems.THUMBSUP.get());
+
+    }
 
    protected void registerModels(Set<Item> items, BiConsumer<ResourceLocation, Supplier<JsonElement>> consumer) {
 

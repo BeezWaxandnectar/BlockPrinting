@@ -1,27 +1,15 @@
 package net.september.blockprinting.block.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.september.blockprinting.item.BPItems;
 import net.september.blockprinting.ux.StampCarverMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,31 +17,44 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class StampCarverBlockEntity extends BlockEntity implements MenuProvider {
+    public StampCarverBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+        super(pType, pPos, pBlockState);
+    }
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(2){
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
-    };
+    public StampCarverBlockEntity(BlockPos pos, BlockState state){
+        super(BPBlockEntities.STAMP_CARVER_ENTITY.get(), pos, state);
+    }
 
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
-    protected ContainerData data;
-    private int isDetectingStamp;
 
-    public StampCarverBlockEntity(BlockPos pos, BlockState state) {
-        super(BPBlockEntities.STAMP_CARVER.get(), pos, state);
-        this.data = new ContainerData() {
-            @Override
-            public int get(int index) {return StampCarverBlockEntity.this.isDetectingStamp;}
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        return super.getUpdateTag();
+    }
 
-            @Override
-            public void set(int index, int value) {StampCarverBlockEntity.this.isDetectingStamp = value;}
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        super.handleUpdateTag(tag);
+    }
 
-            @Override
-            public int getCount() {return 1;}
-        };
 
+
+    //--------NBT--------//
+    @Override
+    @ParametersAreNonnullByDefault
+    protected void saveAdditional(CompoundTag pTag) {
+
+        super.saveAdditional(pTag);
+    }
+
+    @ParametersAreNonnullByDefault
+    @Override
+    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+        return new StampCarverMenu(id, inventory);
+    }
+    @Override
+    @ParametersAreNonnullByDefault
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
     }
 
     @Override
@@ -61,90 +62,5 @@ public class StampCarverBlockEntity extends BlockEntity implements MenuProvider 
         return Component.literal(" ");
     }
 
-    @ParametersAreNonnullByDefault
-    @Override
-    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new StampCarverMenu(id, inventory, this, this.data);
-    }
-
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER){ return lazyItemHandler.cast(); }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
-    }
-
-    @ParametersAreNonnullByDefault
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
-
-    @ParametersAreNonnullByDefault
-    @Override
-    protected void saveAdditional(CompoundTag nbt) {
-
-        nbt.put("inventory", itemHandler.serializeNBT());
-
-        super.saveAdditional(nbt);
-    }
-    @ParametersAreNonnullByDefault
-    @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
-
-    }
-
-    public void drops() {
-        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-        for (int i = 0; i < itemHandler.getSlots(); i++){
-            inventory.setItem(i, itemHandler.getStackInSlot(i));
-        }
-        assert this.level != null;
-        Containers.dropContents(this.level, this.worldPosition, inventory);
-    }
-
-    public static void tick(Level level, BlockPos pos, BlockState blockState, StampCarverBlockEntity entity) {
-        if (level.isClientSide){return;}
-
-        if (isHoldingStamp(entity)) {
-            setChanged(level, pos, blockState);
-            craftItem(entity, BPItems.THUMBSUP.get());
-
-        } else {
-            setChanged(level, pos, blockState);
-        }
-    }
-
-    public static boolean isHoldingStamp(StampCarverBlockEntity entity){
-
-        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-        }
-
-        boolean isHoldingStamp = entity.itemHandler.getStackInSlot(0).getItem() == BPItems.STAMP.get();
-
-        return isHoldingStamp && canOutputStamp(inventory, new ItemStack(BPItems.THUMBSUP.get(), 1));
-    }
-
-    private static boolean canOutputStamp(SimpleContainer inventory, ItemStack stack) {
-        return inventory.getItem(0).isEmpty() && stack.getItem() == BPItems.STAMP.get();
-    }
-
-    private static void craftItem(StampCarverBlockEntity entity, Item result) {
-        if (isHoldingStamp(entity)) {
-            entity.itemHandler.extractItem(0, 1, false);
-            entity.itemHandler.setStackInSlot(1, new ItemStack(BPItems.THUMBSUP.get(),
-                    entity.itemHandler.getStackInSlot(1).getCount() + 1));
-        }
-    }
 
 }
