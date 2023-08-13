@@ -22,7 +22,10 @@ import java.io.IOException;
 // Implement this shit in survival???
 // Printing press
 // Stamps
+// gypsum
+// neverstone
 // FIX SUBSTRATE SHADING
+//
 //
 // Presets - oh lord
 // Recipes for all of the above
@@ -30,15 +33,13 @@ import java.io.IOException;
 // WOULD BE NICE:
 
 // Only generate blocks once they've been programmed ingame :/
-// Pin Patterns to the stamp carver
-// Teach the provider to read from divvied up Styles
 
 public class BPBlockFactory extends BlockStateProvider{
 
     public BPBlockFactory(PackOutput output, String modid, ExistingFileHelper XFileHelper) throws IOException {
         super(output, modid, XFileHelper);
     }
-    final ResourceLocation base = new  ResourceLocation("blockprinting","block/base");
+    public final ResourceLocation base = new  ResourceLocation("blockprinting","block/base");
 
     protected void registerStatesAndModels() {
 
@@ -48,7 +49,7 @@ public class BPBlockFactory extends BlockStateProvider{
             //registerLayeredBlock(BPBlocks.TEST2, 81,"hydra", "argyle", "wallpaper");
 
            // registerManyLayeredBlocks(BPBlocks.BOARDS, "board");
-            registerManyLayeredBlocks(BPBlocks.WALLPAPER, "board");
+            registerManyLayeredBlocks(BPBlocks.WALLPAPER, "wallpaper");
 
 
 
@@ -109,7 +110,6 @@ public class BPBlockFactory extends BlockStateProvider{
         System.out.println("Building #" + index + " " + name);
 
         //TODO: Fix RenderType
-        //TODO: Split Substrates off of FileHandler
 
         return models().cube(name, base, base, base, base, base, base)
                 .texture("style", style)

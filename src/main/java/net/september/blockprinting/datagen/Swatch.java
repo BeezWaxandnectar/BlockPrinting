@@ -4,9 +4,9 @@ import java.util.*;
 
 public class Swatch {
     String Name;
-    int BaseColor;
-    int StyleColor;
-    int SubstrateColor;
+    public int BaseColor;
+    public int StyleColor;
+    public int SubstrateColor;
 
     protected Swatch(String Name, int BaseColor, int StyleColor, int SubstrateColor){
         this.Name = Name;

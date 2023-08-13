@@ -22,6 +22,7 @@ import net.september.blockprinting.util.ModelWithOverrides;
 import net.september.blockprinting.util.OverrideHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -42,15 +43,17 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
     }
 
 
-
+    @Override
+    protected void registerModels() {
+        //This is totally here for a reason. Just roll with it.
+    }
 
     @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
+    public CompletableFuture<?> run(CachedOutput cache) {/* Vazkii, IDK what this is for.
         Set<Item> items = BuiltInRegistries.ITEM.stream().filter(i ->
-                BlockPrinting.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(i).getNamespace())).collect(Collectors.toSet());
+                BlockPrinting.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(i).getNamespace())).collect(Collectors.toSet());*/
         Map<ResourceLocation, Supplier<JsonElement>> map = new HashMap<>();
-        registerModels(items, map::put);
-        registerModels();
+        registerModels(map::put);
 
         PackOutput.PathProvider modelPathProvider = packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models");
         List<CompletableFuture<?>> output = new ArrayList<>();
@@ -62,18 +65,38 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
         return CompletableFuture.allOf(output.toArray(CompletableFuture[]::new));
     }
 
+    public void NewSimpleModel(Item item, BiConsumer<ResourceLocation, Supplier<JsonElement>> consumer) {
+        ResourceLocation ItemRL = ModelLocationUtils.getModelLocation(item);
+        TextureMapping TXM = TextureMapping.layer0(ItemRL);
+        basicModel.create(ItemRL, TXM, consumer);
+    }
 
-    @Override
-    protected void registerModels() {
+    public void AssemblyPreviewPart(Assembly assembly, BiConsumer<ResourceLocation, Supplier<JsonElement>> consumer) throws IOException {
 
-        //To use default Forge Provider//
-        basicItem(BPItems.DEV_REMOTE.get());
-        basicItem(BPItems.STAMP.get());
-        basicItem(BPItems.THUMBSUP.get());
+        ResourceLocation base = new  ResourceLocation("blockprinting","block/base");
+
+        ResourceLocation style = FileHandler.getStyle(assembly.style);
+
+        Swatch swatch = Swatch.getSwatch(assembly.swatch);
+        int BaseColor = swatch.BaseColor;
+        int StyleColor = swatch.StyleColor;
+
+        TextureMapping AssemblyTexture = TextureMapping
+                .layer0(base)
+                .put(TextureSlot.LAYER1, style);
 
     }
 
-   protected void registerModels(Set<Item> items, BiConsumer<ResourceLocation, Supplier<JsonElement>> consumer) {
+
+    public void AssemblyPreviewCollective(Assembly[] ACombos, BiConsumer<ResourceLocation, Supplier<JsonElement>> consumer) {
+
+        for (Assembly A : ACombos) {
+        }
+    }
+
+
+
+    protected void registerModels(BiConsumer<ResourceLocation, Supplier<JsonElement>> consumer) {
 
         TextureMapping InkwellTextures = TextureMapping
                 .layer0(BPItems.MAGIC_INKWELL.get());
@@ -104,7 +127,15 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
                         Pair.of(IPrefix.prefix("magic_inkwell15"), 15)),
                 consumer);
 
-        items.remove(BPItems.MAGIC_INKWELL.get());
+
+        //#################//
+        //--SIMPLE MODELS--//
+        //#################//
+
+        NewSimpleModel(BPItems.STAMP.get(), consumer);
+        NewSimpleModel(BPItems.DEV_REMOTE.get(), consumer);
+        NewSimpleModel(BPItems.THUMBSUP.get(), consumer);
+
 
 }
 

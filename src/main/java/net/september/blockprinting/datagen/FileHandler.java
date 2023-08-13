@@ -1,6 +1,10 @@
 package net.september.blockprinting.datagen;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.ModList;
 import net.september.blockprinting.BlockPrinting;
 
@@ -12,35 +16,29 @@ import java.util.*;
 import java.util.stream.Stream;
 
 
-public class FileHandler {
+public abstract class FileHandler {
 
 
     public FileHandler() throws IOException {
     }
     //I don't know why I have to do it like this, but I do.
-    static String LoserDir = System.getProperty("user.dir");
-    static String UserDir = LoserDir.substring(0, (LoserDir.length()-4));
+    static final String LoserDir = System.getProperty("user.dir");
+    static final String UserDir = LoserDir.substring(0, (LoserDir.length()-4));
 
-    static Path locateResource(String folder) {
+    private static Path locateResource(String folder) {
         //Method Credit: TheSilkMiner
-        System.out.println("locateResource activates");
         Objects.requireNonNull(folder);
         if (!ResourceLocation.isValidPath(folder)) {
             throw new IllegalArgumentException("locateResource didn't work!!!");
-        } else {
-            System.out.println(" > Entered String: " + folder);
         }
-
-        Path output = ModList.get()
+        return ModList.get()
                 .getModFileById(BlockPrinting.MOD_ID)
                 .getFile()
                 .findResource(folder);
-        System.out.println(" > Output String:  " + output);
-        return output;
 
     }
 
-    public static Set<String> TextureNames(String folder) throws IOException {
+    private static Set<String> TextureNames(String folder) throws IOException {
         // Method Credit: Baeldung
         Path folderpath = locateResource(folder);
         Set<String> fileSet = new HashSet<>();
@@ -51,18 +49,15 @@ public class FileHandler {
                 }
             }
         }
-        System.out.println(fileSet);
         return fileSet;
     }
 
-    public static HashMap<String, ResourceLocation> NewMap(String folder) throws IOException {
+    private static HashMap<String, ResourceLocation> NewMap(String folder) throws IOException {
         Set<String> TextureNames = TextureNames(folder);
-        System.out.println("NewMap activates for " + folder);
         HashMap<String, ResourceLocation> NewMap = new HashMap<>();
 
 
         TextureNames.forEach(key -> NewMap.put(key, new ResourceLocation(BlockPrinting.MOD_ID, folder.substring(50) + (key))));
-        System.out.println(" > Final Map Contents: " + NewMap);
         return NewMap;
     }
 
@@ -70,10 +65,10 @@ public class FileHandler {
     public static HashMap<String, ResourceLocation> SubstrateMap;
 
     public static void CreateMaps() {
-        System.out.println(UserDir);
         try {
             StyleMap = NewMap("/src/main/resources/assets/blockprinting/textures/block/bpstylesfolder/");
             SubstrateMap = NewMap("/src/main/resources/assets/blockprinting/textures/block/bpsubstratesfolder/");
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -84,6 +79,33 @@ public class FileHandler {
 
     public static Set<String> getAllStyles() {return StyleMap.keySet();}
 
+
+
+    //###################//
+    //-- PNG Generator --//
+    //###################//
+
+    public static void Nativity(String Namespace, ExistingFileHelper XFileHelper){
+        try {
+            String sourcePath = "/src/main/resources/assets/blockprinting/textures/block/";
+            String sourceFolder = (UserDir + sourcePath);
+
+            String destPath = "/src/generated/resources/assets/blockprinting/tabularasa";
+            String destFolder = (UserDir + destPath);
+
+            ResourceLocation sourceRL = new ResourceLocation(BlockPrinting.MOD_ID, sourcePath.substring(50) + Namespace);
+            Resource resource = XFileHelper.getResource(sourceRL, PackType.CLIENT_RESOURCES, ".png", sourceFolder);
+            System.out.println("Source Resource Location: " + BlockPrinting.MOD_ID + sourcePath.substring(50) + Namespace);
+
+            NativeImage img = NativeImage.read(resource.open());
+            Path destination = Path.of(destFolder, Namespace, ".png");
+
+            img.writeToFile(destination);
+
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

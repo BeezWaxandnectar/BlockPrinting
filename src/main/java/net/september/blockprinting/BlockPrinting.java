@@ -23,6 +23,7 @@ import net.september.blockprinting.block.entity.BPBlockEntities;
 import net.september.blockprinting.datagen.*;
 import net.september.blockprinting.item.BPItemProperties;
 import net.september.blockprinting.item.BPItems;
+import net.september.blockprinting.util.TexGen;
 import net.september.blockprinting.ux.BPMenuTypes;
 import net.september.blockprinting.ux.StampCarverScreen;
 import org.slf4j.Logger;
@@ -33,10 +34,10 @@ import java.util.concurrent.CompletableFuture;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(BlockPrinting.MOD_ID)
 @Mod.EventBusSubscriber(modid = BlockPrinting.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class BlockPrinting
-{
+public class BlockPrinting {
     public static final String MOD_ID = "blockprinting";
     private static final Logger LOGGER = LogUtils.getLogger();
+
 
     public BlockPrinting()
     {
@@ -62,7 +63,6 @@ public class BlockPrinting
     private void commonSetup(final FMLCommonSetupEvent event)
     {}
 
-
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) throws IOException {
         System.out.println("GATHERING DATA");
@@ -75,6 +75,8 @@ public class BlockPrinting
         generator.addProvider(true, new BPBlockFactory(packOutput, "blockprinting", XFileHelper));
         generator.addProvider(true, BPLootTableProvider.create(packOutput));
         generator.addProvider(true, new BPLang(packOutput, "blockprinting", "en_us"));
+
+        TexGen.GeneratePNGs(XFileHelper);
     }
 
     @SubscribeEvent

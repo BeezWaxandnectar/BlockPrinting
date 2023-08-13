@@ -24,6 +24,7 @@ public class LegacyStampCarverScreen extends AbstractContainerScreen<LegacyStamp
     @Override
     protected void init() {
         super.init();
+
     }
 
 
