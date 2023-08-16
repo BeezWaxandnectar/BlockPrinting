@@ -24,15 +24,13 @@ import java.io.IOException;
 // Stamps
 // gypsum
 // neverstone
+// alabaster
+// tree types
 // FIX SUBSTRATE SHADING
 //
-//
-// Presets - oh lord
 // Recipes for all of the above
 
 // WOULD BE NICE:
-
-// Only generate blocks once they've been programmed ingame :/
 
 public class BPBlockFactory extends BlockStateProvider{
 
@@ -44,9 +42,7 @@ public class BPBlockFactory extends BlockStateProvider{
     protected void registerStatesAndModels() {
 
         registerStandardBlock(BPBlocks.BISMUTH_BLOCK);
-        try {
-            //registerLayeredBlock(BPBlocks.BASE,  82,"tropical", "floral", "wallpaper");
-            //registerLayeredBlock(BPBlocks.TEST2, 81,"hydra", "argyle", "wallpaper");
+       /* try {
 
            // registerManyLayeredBlocks(BPBlocks.BOARDS, "board");
             registerManyLayeredBlocks(BPBlocks.WALLPAPER, "wallpaper");
@@ -58,7 +54,7 @@ public class BPBlockFactory extends BlockStateProvider{
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
 

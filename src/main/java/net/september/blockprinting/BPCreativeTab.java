@@ -40,7 +40,7 @@ public class BPCreativeTab {
             CreativeModeTab.builder().icon(() -> new ItemStack(BPBlocks.BISMUTH_BLOCK.get())).withSearchBar().displayItems(((pParameters, pOutput) -> {
 
                 //pOutput.acceptAll(List.of(SubstrateAsItemstacks(BPBlocks.BOARDS)));
-                pOutput.acceptAll(List.of(SubstrateAsItemstacks(BPBlocks.WALLPAPER)));
+              //  pOutput.acceptAll(List.of(SubstrateAsItemstacks(BPBlocks.WALLPAPER)));
 
 
             })).build());

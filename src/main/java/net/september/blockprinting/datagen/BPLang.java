@@ -32,6 +32,21 @@ public class BPLang extends LanguageProvider {
       return assembly;
    }
 
+   private String addSpace(String input){
+      if (input.contains("0")){
+         int zeroLoc = input.indexOf("0");
+         int nextCapital = zeroLoc + 1;
+
+         String firstWord = input.substring(0, zeroLoc);
+         String secondWord = input.substring(nextCapital, input.length());
+
+         return firstWord + " " + secondWord;
+      } else {
+         return input;
+      }
+   }
+
+
    private static String Capitalize(String input){
       return input.substring(0, 1).toUpperCase() + input.substring(1);
    }
@@ -48,7 +63,7 @@ public class BPLang extends LanguageProvider {
 
 
 
-      addManyBlocks(BPBlocks.WALLPAPER);
+     // addManyBlocks(BPBlocks.WALLPAPER);
 
       // --- non-Procedural --- //
 
@@ -72,9 +87,9 @@ public class BPLang extends LanguageProvider {
 
          String[] currentBlockNameData = decomposename(currentBlock);
 
-         String Swatch = Capitalize(currentBlockNameData[0]);
-         String Style = Capitalize(currentBlockNameData[1]);
-         String Substrate = Capitalize(currentBlockNameData[2]);
+         String Swatch = Capitalize(addSpace(currentBlockNameData[0]));
+         String Style = Capitalize(addSpace(currentBlockNameData[1]));
+         String Substrate = Capitalize(addSpace(currentBlockNameData[2]));
 
          String EnglishName = Swatch + " " + Style + " " + Substrate;
 

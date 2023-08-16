@@ -25,7 +25,7 @@ public class BPBlockLootTableProvider extends BlockLootSubProvider {
         //this.dropSelf(BPBlocks.TEST2.get());
 
         //IterateDropSelf(BPBlocks.BOARDS);
-        IterateDropSelf(BPBlocks.WALLPAPER);
+      //  IterateDropSelf(BPBlocks.WALLPAPER);
 
 
     }

@@ -52,7 +52,7 @@ public class BPBlocks {
 
     //public static Substrate[] BOARDS = BlockRegistryObjectArray("board", Blocks.OAK_PLANKS, SoundType.WOOD);
     // public static Substrate[] WOOL = BlockRegistryObjectArray("wool", Blocks.WHITE_WOOL, SoundType.WOOL);
-   public static Substrate[] WALLPAPER = SubstrateArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
+  // public static Substrate[] WALLPAPER = SubstrateArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
 
 
  /*   public static final RegistryObject<Block> WOOLTEST = registerBlock("wooltest", () -> new Block(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL).sound(SoundType.WOOL)));
