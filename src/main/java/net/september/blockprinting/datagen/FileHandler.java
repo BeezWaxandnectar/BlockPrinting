@@ -39,7 +39,6 @@ public abstract class FileHandler {
     }
 
     private static Set<String> TextureNames(String folder) throws IOException {
-        // Method Credit: Baeldung
         Path folderpath = locateResource(folder);
         Set<String> fileSet = new HashSet<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of(UserDir + folderpath))) {
@@ -64,10 +63,13 @@ public abstract class FileHandler {
     public static HashMap<String, ResourceLocation> StyleMap;
     public static HashMap<String, ResourceLocation> SubstrateMap;
 
+    public static HashMap<String, ResourceLocation> TabulaRasaFiles;
+
     public static void CreateMaps() {
         try {
             StyleMap = NewMap("/src/main/resources/assets/blockprinting/textures/block/bpstylesfolder/");
             SubstrateMap = NewMap("/src/main/resources/assets/blockprinting/textures/block/bpsubstratesfolder/");
+            TabulaRasaFiles = NewMap("/src/main/resources/assets/blockprinting/textures/block/tabularasa/");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -76,36 +78,14 @@ public abstract class FileHandler {
 
     public static ResourceLocation getStyle(String key) throws IOException {return StyleMap.get(key);}
     public static ResourceLocation getSubstrate(String key) throws IOException {return SubstrateMap.get(key);}
+    public static ResourceLocation getBlankSlate(String key) throws IOException {return TabulaRasaFiles.get(key);}
 
     public static Set<String> getAllStyles() {return StyleMap.keySet();}
+    public static Set<String> getAllSubstrates() {return SubstrateMap.keySet();}
+    public static Set<String> getTabulaRasa() {return TabulaRasaFiles.keySet();}
 
 
 
-    //###################//
-    //-- PNG Generator --//
-    //###################//
-
-    public static void Nativity(String Namespace, ExistingFileHelper XFileHelper){
-        try {
-            String sourcePath = "/src/main/resources/assets/blockprinting/textures/block/";
-            String sourceFolder = (UserDir + sourcePath);
-
-            String destPath = "/src/generated/resources/assets/blockprinting/tabularasa";
-            String destFolder = (UserDir + destPath);
-
-            ResourceLocation sourceRL = new ResourceLocation(BlockPrinting.MOD_ID, sourcePath.substring(50) + Namespace);
-            Resource resource = XFileHelper.getResource(sourceRL, PackType.CLIENT_RESOURCES, ".png", sourceFolder);
-            System.out.println("Source Resource Location: " + BlockPrinting.MOD_ID + sourcePath.substring(50) + Namespace);
-
-            NativeImage img = NativeImage.read(resource.open());
-            Path destination = Path.of(destFolder, Namespace, ".png");
-
-            img.writeToFile(destination);
-
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        }
-    }
 
 
 }

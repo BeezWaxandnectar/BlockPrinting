@@ -23,6 +23,7 @@ import net.september.blockprinting.block.entity.BPBlockEntities;
 import net.september.blockprinting.datagen.*;
 import net.september.blockprinting.item.BPItemProperties;
 import net.september.blockprinting.item.BPItems;
+//import net.september.blockprinting.util.TexGen;
 import net.september.blockprinting.util.TexGen;
 import net.september.blockprinting.ux.BPMenuTypes;
 import net.september.blockprinting.ux.StampCarverScreen;
@@ -39,9 +40,9 @@ public class BlockPrinting {
     private static final Logger LOGGER = LogUtils.getLogger();
 
 
-    public BlockPrinting()
-    {
+    public BlockPrinting() throws IOException {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
 
         BPBlockEntities.register(modEventBus);
         BPMenuTypes.register(modEventBus);
@@ -57,6 +58,10 @@ public class BlockPrinting {
 
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
+
+        TexGen texgendummy = new TexGen();
+        texgendummy.GeneratePNGs();
+
     }
 
 
@@ -64,7 +69,7 @@ public class BlockPrinting {
     {}
 
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) throws IOException {
+    public void gatherData(GatherDataEvent event) throws IOException {
         System.out.println("GATHERING DATA");
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
@@ -76,7 +81,6 @@ public class BlockPrinting {
         generator.addProvider(true, BPLootTableProvider.create(packOutput));
         generator.addProvider(true, new BPLang(packOutput, "blockprinting", "en_us"));
 
-        TexGen.GeneratePNGs(XFileHelper);
     }
 
     @SubscribeEvent
@@ -96,6 +100,5 @@ public class BlockPrinting {
         public static void onModelRegister(ModelEvent.RegisterAdditional event){
             BPItemProperties.init((itemLike, resourceLocation, clampedItemPropertyFunction) -> ItemProperties.register(itemLike.asItem(), resourceLocation, clampedItemPropertyFunction));
         }
-
     }
 }

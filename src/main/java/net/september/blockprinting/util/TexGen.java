@@ -2,11 +2,6 @@
 package net.september.blockprinting.util;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.datagen.FileHandler;
 import net.september.blockprinting.datagen.Swatch;
 import org.jetbrains.annotations.NotNull;
@@ -16,40 +11,74 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 
-public class TexGen {
-    static final String LoserDir = System.getProperty("user.dir");
-    static final String UserDir = LoserDir.substring(0, (LoserDir.length()-4));
-    static String tabulaFolder = "/src/main/resources/assets/blockprinting/textures/block/tabularasa";
-    static String destPath = "/src/main/resources/assets/blockprinting/textures/block/generated/";
-    static String destFolder = (UserDir + destPath);
+public class TexGen{
 
-    public static void GeneratePNGs(ExistingFileHelper XFileHelper) throws IOException {
+    public TexGen(){}
+    final String LoserDir = System.getProperty("user.dir");
+    final String UserDir = LoserDir.substring(0, (LoserDir.length()-4));
+    final String destPath = "/src/main/resources/assets/blockprinting/textures/block/generated/";
+    final String generatedFolder = (UserDir + destPath);
 
-        refreshGeneration();
+    //##############//
+    // PNG PIPELINE //-----------------------------------------------------------------------------------------------
+    //##############//
 
-        generateForAll("wallpaper", XFileHelper);
+    public void GeneratePNGs() throws IOException {
+
+        refreshGeneration("block/");
+        refreshGeneration("assembly/");
+        refreshGeneration("assemblypreview/");
+
+        generateAllAssemblies();
+
+        generateForAll("wallpaper");
 
     }
 
-    public static void generateForAll(String substrate, ExistingFileHelper XFileHelper) throws IOException{
+    private void generateAllAssemblies() throws IOException {
+
+        for (String swatch : Swatch.getAllSwatches()){
+            for (String style : FileHandler.getAllStyles()){
+                generateAssemblyPreview(swatch, style);
+            }}}
+
+
+    private void generateAssemblyPreview(String swatchname, String stylename) throws IOException {
+        NativeImage base = SpriteFinder.look("base", "base");
+        NativeImage style = SpriteFinder.look("style", stylename);
+        String Namespace = swatchname + "_" + stylename;
+
+        Swatch swatch = Swatch.getSwatch(swatchname);
+
+        int baseColor = swatch.ABaseColor;
+        int styleColor = swatch.AStyleColor;
+
+        NativeImage assembly = FromParents("binary", base, baseColor, style, styleColor, Namespace, 1.0f, "new", "assembly/");
+        NativeImage stitchBase = SpriteFinder.look("base", "assembly_preview_base");
+
+        NativeImage output = FromParents("binary", stitchBase, null, assembly, null, Namespace, 1.0f, "new", "assemblypreview/");
+
+        assembly.writeToFile(Path.of(generatedFolder + "assembly/" + Namespace + ".png"));
+        output.writeToFile(Path.of(generatedFolder + "assemblypreview/" + Namespace + ".png"));
+
+    }
+
+    private void generateForAll(String substrate) throws IOException{
 
         for( String swatch : Swatch.getAllSwatches()){
             for(String style : FileHandler.getAllStyles()){
-                generateAssembly(swatch, style, substrate, XFileHelper);
+                processImages(swatch, style, substrate);
             }
         }
-
     }
 
-    public static void generateAssembly(String swatchname, String stylename, String substratename, ExistingFileHelper XFileHelper) throws IOException {
+    private void processImages(String swatchname, String stylename, String substratename) throws IOException {
         try{
-            NativeImage base = FromExisting("base", "debug", XFileHelper);
-            NativeImage style = FromExisting("style", stylename, XFileHelper);
+            NativeImage base = SpriteFinder.look("base", "base");
+            NativeImage style = SpriteFinder.look("style", stylename);
 
             String Namespace = swatchname + "_" + stylename + "_" + substratename;
-            String Names = swatchname + "_" + stylename;
 
             Swatch swatch = Swatch.getSwatch(swatchname);
 
@@ -58,17 +87,18 @@ public class TexGen {
             int substrateColor = swatch.SubstrateColor;
             int substrateMask = swatch.SubstrateMask;
 
-            NativeImage substrate = FromExisting("substrate", substratename, XFileHelper);
+            NativeImage substrate = SpriteFinder.look("substrate", substratename);
 
-            NativeImage baseBlend = FromParents("blend", base, baseColor, substrate, substrateColor, "baseblend", XFileHelper, 0.0f, "temp");
-            NativeImage styleBlend = FromParents("blend", style, styleColor, substrate, substrateMask, "styleblend", XFileHelper, 0.0f, "temp");
+            NativeImage baseBlend = FromParents("blend", base, baseColor, substrate, substrateColor,
+                    "baseblend",  0.0f, "temp", null);
+            NativeImage styleBlend = FromParents("blend", style, styleColor, substrate, substrateMask,
+                    "styleblend",  0.0f, "temp", null);
 
-            NativeImage assembly = FromParents("binary", baseBlend, null, styleBlend, null, Namespace, XFileHelper, 1.0f, "new");
+            NativeImage assembly = FromParents("binary", baseBlend, null, styleBlend, null,
+                    Namespace, 1.0f, "new", "block/");
 
-            Path destination = Path.of(destFolder + Namespace + ".png");
+            Path destination = Path.of(generatedFolder + "block/" + Namespace + ".png");
 
-          //  baseBlend.writeToFile(Path.of(destFolder + "baseblend.png"));
-          //  styleBlend.writeToFile(Path.of(destFolder + "styleblend.png"));
             assembly.writeToFile(destination);
 
         } catch (IOException e) {
@@ -76,42 +106,13 @@ public class TexGen {
         }
     }
 
-    public static NativeImage FromExisting(String type, String Namespace, ExistingFileHelper XFileHelper){
-
-        try{
-        String sourcePath = switch (type) {
-            case "new" -> "textures/block/generated/";
-            case "base" -> "textures/block/";
-            case "style" -> "textures/block/bpstylesfolder/";
-            case "substrate" -> "textures/block/bpsubstratesfolder/";
-            case "temp" -> "textures/block/tabularasa/";
-            default -> throw new RuntimeException();
-        };
-
-            String NamespacePng = Namespace + ".png";
-
-            if (type.equals("new")){
-                Path tabula = Path.of(destFolder + NamespacePng);
-                Files.createFile(tabula);
-            }
-
-            ResourceLocation sourceRL = new ResourceLocation(BlockPrinting.MOD_ID, sourcePath + NamespacePng);
-            Resource resource = XFileHelper.getResource(sourceRL, PackType.CLIENT_RESOURCES);
-            System.out.println("Source Resource Location: " + BlockPrinting.MOD_ID + sourcePath + NamespacePng);
-
-            return NativeImage.read(resource.open());
-
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        }
-    }
 
 
-    public static @NotNull NativeImage FromParents(String function,
-                                                   NativeImage base, @Nullable Integer baseColor,
-                                                   NativeImage overlay, @Nullable Integer overlayColor,
-                                                   String Namespace, ExistingFileHelper XFileHelper,
-                                                   float alphaCoefficient, String type){
+    private @NotNull NativeImage FromParents(String function,
+                                                    NativeImage base, @Nullable Integer baseColor,
+                                                    NativeImage overlay, @Nullable Integer overlayColor,
+                                                    String Namespace, float alphaCoefficient,
+                                                    String type, @Nullable String FolderExtension){
         if (baseColor != null){
             SpecifyColor(base, baseColor);
         }
@@ -119,12 +120,16 @@ public class TexGen {
             SpecifyColor(overlay, overlayColor);
         }
 
-        NativeImage output = FromExisting(type, Namespace, XFileHelper);
+        NativeImage output = new NativeImage(16, 16, false);
 
         for (int x = 0; x < base.getWidth(); x++){
             for (int y = 0; y < base.getHeight(); y++){
-                int[] baseData = separateColors(makeABGR(base.getPixelRGBA(x, y)));
-                int[] overlayData = separateColors(makeABGR(overlay.getPixelRGBA(x, y)));
+                int[] baseData = separateColors((base.getPixelRGBA(x, y)));
+                int overlayX = x;
+                int overlayY = y;
+                while(overlayX >= overlay.getWidth()){overlayX = overlayX - overlay.getWidth();}
+                while(overlayY >= overlay.getHeight()){overlayY = overlayY - overlay.getHeight();}
+                int[] overlayData = separateColors((overlay.getPixelRGBA(overlayX, overlayY)));
 
 
                 if (overlayData[0] == 0){
@@ -137,31 +142,25 @@ public class TexGen {
                             int blendedColors = assembleColors(blendedColorsDebug);
                             output.setPixelRGBA(x, y, blendedColors);
                         }
-                        case "multiply" -> {
-                            int[] multiplyData = multiplyColors(baseData, overlayData);
-                            int multipliedColors = assembleColors(blendColors(baseData, multiplyData, alphaCoefficient));
-                            output.setPixelRGBA(x, y, multipliedColors);
-                        }
-                    }}}
-        }
+                    }}}}
         return output;
     }
 
-    private static void refreshGeneration() throws IOException {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of(destFolder))) {
+    private void refreshGeneration(String FolderExtension) throws IOException {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of(generatedFolder + FolderExtension))) {
             for (Path path : stream) {
                 if (!Files.isDirectory(path)) {
                     Files.delete(path);
                 }}}}
 
     //#############//
-    // COLOR LOGIC //
+    // COLOR LOGIC // ----------------------------------------------------------------------------------------------
     //#############//
 
-    public static void SpecifyColor(NativeImage img, int color){
+    private void SpecifyColor(NativeImage img, int color){
         for (int x = 0; x < img.getWidth(); x++){
             for (int y = 0; y < img.getHeight(); y++){
-                    int[] pixelData = separateColors(makeABGR(img.getPixelRGBA(x, y)));
+                    int[] pixelData = separateColors((img.getPixelRGBA(x, y)));
                     int[] colorData = separateColors(makeABGR(color));
                     colorData[0] = pixelData[0];
                     int finalcolor = assembleColors(colorData);
@@ -169,11 +168,11 @@ public class TexGen {
                     img.setPixelRGBA(x, y, (finalcolor));
                 }}}
 
-    private static int makeABGR(int color){
+    private int makeABGR(int color){
         return (color & 0xFF00FF00) | (((color & 0x00FF0000) >> 16) & 0x000000FF) | (((color & 0x000000FF) << 16) & 0x00FF0000);
     }
 
-    private static int[] separateColors(int abgr){
+    private int[] separateColors(int abgr){
         int[] ColorData = new int[4];
 
         // ALPHA BREAKPOINT -
@@ -184,20 +183,11 @@ public class TexGen {
         ColorData[3] = (abgr & 0x000000FF);       //RED
         return ColorData;
     }
-    private static int assembleColors(int[] Colordata){
+    private int assembleColors(int[] Colordata){
         return (Colordata[0] << 24) | (Colordata[1] << 16) | (Colordata[2] << 8) | (Colordata[3]);
     }
-    private static int[] multiplyColors(int[] baseData, int[] overlayData){
-        int[] multiplydata = new int[4];
 
-        multiplydata[0] = overlayData[0];
-        multiplydata[1] = (baseData[1] * (overlayData[1])) / 255;
-        multiplydata[2] = (baseData[2] * (overlayData[2])) / 255;
-        multiplydata[3] = ((baseData[3]) * (overlayData[3])) / 255;
-
-        return multiplydata;
-    }
-    private static int[] blendColors(int[] baseData, int[] overlayData, float alphaCoefficient){
+    private int[] blendColors(int[] baseData, int[] overlayData, float alphaCoefficient){
         int[] blendedData = new int[4];
         int overlayoutput;
 
