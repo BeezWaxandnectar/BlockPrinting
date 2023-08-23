@@ -24,6 +24,7 @@ import net.september.blockprinting.datagen.*;
 import net.september.blockprinting.item.BPItemProperties;
 import net.september.blockprinting.item.BPItems;
 //import net.september.blockprinting.util.TexGen;
+import net.september.blockprinting.util.SpriteFinder;
 import net.september.blockprinting.util.TexGen;
 import net.september.blockprinting.ux.BPMenuTypes;
 import net.september.blockprinting.ux.StampCarverScreen;
@@ -59,6 +60,7 @@ public class BlockPrinting {
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
 
+        SpriteFinder.listPacks();
         TexGen texgendummy = new TexGen();
         texgendummy.GeneratePNGs();
 
