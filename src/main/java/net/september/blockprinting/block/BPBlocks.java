@@ -12,6 +12,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.block.entity.StampCarverBlock;
+import net.september.blockprinting.block.printed.PrintedBlock;
 import net.september.blockprinting.datagen.Assembly;
 import net.september.blockprinting.datagen.Substrate;
 import net.september.blockprinting.item.BPItems;
@@ -24,7 +25,7 @@ public class BPBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, BlockPrinting.MOD_ID);
 
-    public static Substrate @NotNull [] SubstrateArray(String substrate, BlockBehaviour material, SoundType sound){
+    public static Substrate [] SubstrateArray(String substrate, BlockBehaviour material, SoundType sound){
         Substrate[] SubstrateArray = new Substrate[Assembly.AssembledCombinations.length];
         int CurrentIndex = 0;
             for (Assembly assembly : Assembly.AssembledCombinations){
@@ -39,11 +40,14 @@ public class BPBlocks {
 
 
 
+   // public static final RegistryObject<Block> PRINTED_BLOCK = registerBlock("printed_block", () -> new PrintedBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
 
 
     public static final RegistryObject<Block> BISMUTH_BLOCK = registerBlock("bismuth_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.TUFF).sound(SoundType.TUFF)));
     public static final RegistryObject<Block> PRINTING_PRESS = registerBlock("printing_press", () -> new Block(BlockBehaviour.Properties.copy(Blocks.JUNGLE_WOOD).sound(SoundType.WOOD).noOcclusion().dynamicShape()));
     public static final RegistryObject<Block> STAMP_CARVER = registerBlock("stamp_carver", () -> new StampCarverBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD)));
+
+
 
 
     //public static final RegistryObject<Block> BASE = registerBlock("base", () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.BAMBOO_WOOD)));
@@ -52,7 +56,7 @@ public class BPBlocks {
 
     //public static Substrate[] BOARDS = BlockRegistryObjectArray("board", Blocks.OAK_PLANKS, SoundType.WOOD);
     // public static Substrate[] WOOL = BlockRegistryObjectArray("wool", Blocks.WHITE_WOOL, SoundType.WOOL);
-  // public static Substrate[] WALLPAPER = SubstrateArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
+    //public static Substrate[] WALLPAPER = SubstrateArray("wallpaper", Blocks.OAK_PLANKS, SoundType.BAMBOO_WOOD);
 
 
  /*   public static final RegistryObject<Block> WOOLTEST = registerBlock("wooltest", () -> new Block(BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL).sound(SoundType.WOOL)));

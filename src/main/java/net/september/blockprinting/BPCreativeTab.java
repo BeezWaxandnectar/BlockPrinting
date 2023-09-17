@@ -47,7 +47,6 @@ public class BPCreativeTab {
 
     public static ItemStack[] SubstrateAsItemstacks(Substrate[] substrates){
         ItemStack[] OutputArray = new ItemStack[Assembly.AssembledCombinations.length];
-        //TODO: Make it directly output a list.
         int CurrentIndex = 0;
         for (Substrate substrate : substrates){
             OutputArray[CurrentIndex] = new ItemStack(substrate.blockField.get());

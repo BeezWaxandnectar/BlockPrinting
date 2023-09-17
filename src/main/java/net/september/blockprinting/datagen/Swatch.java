@@ -29,9 +29,8 @@ public class Swatch {
     private static final ArrayList<Swatch> SwatchList = new ArrayList<>(Arrays.asList(
 
 
-            //new Swatch("aether", 0xFFffffff, 0xFFbbe7ff, 0xffd4f4ff, 0xFF00a7ff, 0xFFebfeff, 0xFF71cdff),
-            //new Swatch("alabaster", 0xFFffffff, 0xFFbbe7ff, 0xffd4f4ff, 0xFF00a7ff, 0xFFf5f5f5, 0xFFf0e8ce),
-            //new Swatch("antique", 0xFFc1c19e, 0xFF308ba3, 0xff807659, 0xFF3d6666, 0xFFa0a083, 0xFF4b7884),
+            new Swatch("aether", 0xFFffffff, 0xFFbbe7ff, 0xffd4f4ff, 0xFF00a7ff, 0xFFebfeff, 0xFF71cdff),
+            new Swatch("antique", 0xFFc1c19e, 0xFF308ba3, 0xff807659, 0xFF3d6666, 0xFFa0a083, 0xFF4b7884),
             //new Swatch("aqua", 0xFFceeceb, 0xFF83c1ce, 0xff89abab, 0xFF366b66, 0xFFbcd8d7, 0xFF6696a0),
             //new Swatch("arboreal", 0xFFa3bb8c, 0xFF593729, 0xff3b4031, 0xFF381d10, 0xFF708060, 0xFF42291f),
             //new Swatch("blazing", 0xFFffce85, 0xFFd00202, 0xffd69a51, 0xFF780000, 0xFFffc978, 0xFFaa0202),
@@ -93,8 +92,9 @@ public class Swatch {
     public static Swatch getSwatch(String key) {return SwatchMap.get(key);}
 
     public static Set<String> getAllSwatches() {return SwatchMap.keySet();}
-
-
+    public static boolean isValidSwatch(String input) {
+        return SwatchMap.containsKey(input);
+    }
 
 
 }

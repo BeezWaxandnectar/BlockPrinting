@@ -32,18 +32,6 @@ public class StampCarverBlock extends BaseEntityBlock implements EntityBlock {
             NetworkHooks.openScreen((ServerPlayer) pPlayer, (StampCarverBlockEntity) entity, pPos);
         }
 
-        System.out.println("Clicked on Carver:");
-        System.out.println("Blockstate: " + pState);
-        System.out.println("Level: " + pLevel);
-        System.out.println("Pos: " + pPos);
-        System.out.println("Player: " + pPlayer);
-        System.out.println("Hand: " + pHand);
-        System.out.println("Entity: " + entity);
-        System.out.println("Result: " + pHit);
-
-
-
-
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
 
     }

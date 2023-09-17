@@ -11,6 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.september.blockprinting.BlockPrinting;
 import net.september.blockprinting.block.BPBlocks;
+import net.september.blockprinting.util.FileMaps;
 
 import java.io.IOException;
 
@@ -91,8 +92,8 @@ public class BPBlockFactory extends BlockStateProvider{
                buildLayeredBlock(
                         getName(block),
                         index,
-                        FileHandler.getStyle(Style),
-                        FileHandler.getSubstrate(substrate),
+                        FileMaps.getStyle(Style),
+                        FileMaps.getSubstrate(substrate),
                         swatchName
                 ));}
 

@@ -23,9 +23,9 @@ import net.september.blockprinting.block.entity.BPBlockEntities;
 import net.september.blockprinting.datagen.*;
 import net.september.blockprinting.item.BPItemProperties;
 import net.september.blockprinting.item.BPItems;
-//import net.september.blockprinting.util.TexGen;
-import net.september.blockprinting.util.SpriteFinder;
-import net.september.blockprinting.util.TexGen;
+import net.september.blockprinting.util.FileMaps;
+import net.september.blockprinting.util.FileTracker;
+import net.september.blockprinting.util.TextureFactory;
 import net.september.blockprinting.ux.BPMenuTypes;
 import net.september.blockprinting.ux.StampCarverScreen;
 import org.slf4j.Logger;
@@ -38,7 +38,6 @@ import java.util.concurrent.CompletableFuture;
 @Mod.EventBusSubscriber(modid = BlockPrinting.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlockPrinting {
     public static final String MOD_ID = "blockprinting";
-    private static final Logger LOGGER = LogUtils.getLogger();
 
 
     public BlockPrinting() throws IOException {
@@ -48,7 +47,7 @@ public class BlockPrinting {
         BPBlockEntities.register(modEventBus);
         BPMenuTypes.register(modEventBus);
 
-        FileHandler.CreateMaps();
+        FileMaps.CreateMaps();
         Swatch.CreateSwatchMap();
 
         Assembly.RunTheAssemblinator();
@@ -60,9 +59,8 @@ public class BlockPrinting {
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
 
-        SpriteFinder.listPacks();
-        TexGen texgendummy = new TexGen();
-        texgendummy.GeneratePNGs();
+        FileTracker DataGenTracker = new FileTracker();
+        DataGenTracker.openRepo();
 
     }
 
@@ -71,12 +69,14 @@ public class BlockPrinting {
     {}
 
     @SubscribeEvent
-    public void gatherData(GatherDataEvent event) throws IOException {
+    public static void gatherData(GatherDataEvent event) throws IOException {
         System.out.println("GATHERING DATA");
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         ExistingFileHelper XFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+
+        TextureFactory dummy = new TextureFactory();
 
         generator.addProvider(true, new BPItemModelProvider(packOutput, XFileHelper));
         generator.addProvider(true, new BPBlockFactory(packOutput, "blockprinting", XFileHelper));

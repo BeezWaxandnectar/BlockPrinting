@@ -2,7 +2,6 @@ package net.september.blockprinting.datagen;
 
 import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -12,12 +11,11 @@ import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.data.models.model.TextureSlot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.september.blockprinting.BlockPrinting;
-import net.september.blockprinting.block.BPBlocks;
 import net.september.blockprinting.item.BPItems;
+import net.september.blockprinting.util.FileMaps;
 import net.september.blockprinting.util.ModelWithOverrides;
 import net.september.blockprinting.util.OverrideHolder;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +25,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class BPItemModelProvider extends ItemModelProvider implements DataProvider{
 
@@ -75,7 +72,7 @@ public class BPItemModelProvider extends ItemModelProvider implements DataProvid
 
         ResourceLocation base = new  ResourceLocation("blockprinting","block/base");
 
-        ResourceLocation style = FileHandler.getStyle(assembly.style);
+        ResourceLocation style = FileMaps.getStyle(assembly.style);
 
         Swatch swatch = Swatch.getSwatch(assembly.swatch);
         int BaseColor = swatch.BaseColor;

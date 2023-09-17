@@ -1,20 +1,16 @@
-package net.september.blockprinting.util;
+package net.september.blockprinting.deletethislater;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.GsonHelper;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.september.blockprinting.datagen.FileHandler;
+import net.september.blockprinting.util.FileMaps;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,16 +46,16 @@ public class LegacySpriteFinder {
     // Default Images //------------------------------------------------------------------------------------------------
     //################//
     private static void MapDefaultStyles(ExistingFileHelper XFileHelper) throws IOException {
-        for (String style : FileHandler.getAllStyles()) {
-            ResourceLocation RL = FileHandler.getStyle(style);
+        for (String style : FileMaps.getAllStyles()) {
+            ResourceLocation RL = FileMaps.getStyle(style);
             Resource resource = XFileHelper.getResource(RL, PackType.CLIENT_RESOURCES);
             NativeImage img = NativeImage.read(resource.open());
             DefaultStyles.put(style, img);
         }
     }
     private static void MapDefaultSubstrates(ExistingFileHelper XFileHelper)  throws IOException {
-        for (String substrate : FileHandler.getAllSubstrates()) {
-            ResourceLocation RL = FileHandler.getSubstrate(substrate);
+        for (String substrate : FileMaps.getAllSubstrates()) {
+            ResourceLocation RL = FileMaps.getSubstrate(substrate);
             Resource resource = XFileHelper.getResource(RL, PackType.CLIENT_RESOURCES);
             NativeImage img = NativeImage.read(resource.open());
             DefaultSubstrates.put(substrate, img);
@@ -67,8 +63,8 @@ public class LegacySpriteFinder {
 
     }
     private static void MapTabulaRasa(ExistingFileHelper XFileHelper)  throws IOException {
-        for (String slate : FileHandler.getTabulaRasa()){
-            ResourceLocation RL = FileHandler.getBlankSlate(slate);
+        for (String slate : FileMaps.getAllBlankSlates()){
+            ResourceLocation RL = FileMaps.getBlankSlate(slate);
             Resource resource = XFileHelper.getResource(RL, PackType.CLIENT_RESOURCES);
             NativeImage img = NativeImage.read(resource.open());
             TabulaRasa.put(slate, img);
@@ -138,7 +134,6 @@ public class LegacySpriteFinder {
 
 
     public static void savePackMcmeta(){
-        Path path = (Path.of(destPath)).resolve("/indexes/pack.mcmeta");
         JsonObject meta = new JsonObject();
         JsonObject pack = new JsonObject();
 
@@ -146,16 +141,16 @@ public class LegacySpriteFinder {
         pack.addProperty("pack_format", 8);
         meta.add("pack", pack);
 
-        try {
-            Files.createDirectories(path.getParent());
+       // try {
+           // Files.createDirectories(path.getParent());
             String json = Gsonathan.toJson(meta);
-            try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path)){
-                bufferedWriter.write(json);
-            }
+           // try (BufferedWriter bufferedWriter = Files.newBufferedWriter(path)){
+               // bufferedWriter.write(json);
+            //}
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //}catch (IOException e) {
+           // throw new RuntimeException(e);
+       // }
 
     }
 

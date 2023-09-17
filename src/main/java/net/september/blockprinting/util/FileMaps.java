@@ -1,10 +1,6 @@
-package net.september.blockprinting.datagen;
+package net.september.blockprinting.util;
 
-import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.ModList;
 import net.september.blockprinting.BlockPrinting;
 
@@ -13,17 +9,13 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Stream;
 
 
-public abstract class FileHandler {
+public class FileMaps {
 
 
-    public FileHandler() throws IOException {
+    public FileMaps() throws IOException {
     }
-    //I don't know why I have to do it like this, but I do.
-    static final String LoserDir = System.getProperty("user.dir");
-    static final String UserDir = LoserDir.substring(0, (LoserDir.length()-4));
 
     private static Path locateResource(String folder) {
         //Method Credit: TheSilkMiner
@@ -35,13 +27,12 @@ public abstract class FileHandler {
                 .getModFileById(BlockPrinting.MOD_ID)
                 .getFile()
                 .findResource(folder);
-
     }
 
-    private static Set<String> TextureNames(String folder) throws IOException {
+    private static Set<String> AssignTextureNames(String folder) throws IOException {
         Path folderpath = locateResource(folder);
         Set<String> fileSet = new HashSet<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of(UserDir + folderpath))) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of(FileTracker.UserDir + folderpath))) {
             for (Path path : stream) {
                 if (!Files.isDirectory(path)) {
                     fileSet.add((path.getFileName().toString()).substring(0, ((path.getFileName().toString()).length()-4)));
@@ -52,24 +43,23 @@ public abstract class FileHandler {
     }
 
     private static HashMap<String, ResourceLocation> NewMap(String folder) throws IOException {
-        Set<String> TextureNames = TextureNames(folder);
+        Set<String> TextureNames = AssignTextureNames(folder);
         HashMap<String, ResourceLocation> NewMap = new HashMap<>();
 
 
-        TextureNames.forEach(key -> NewMap.put(key, new ResourceLocation(BlockPrinting.MOD_ID, folder.substring(50) + (key))));
+        TextureNames.forEach(key -> NewMap.put(key, new ResourceLocation(BlockPrinting.MOD_ID, folder.substring(FileTracker.resourceLocBeginIndex) + (key) )));
         return NewMap;
     }
 
     public static HashMap<String, ResourceLocation> StyleMap;
     public static HashMap<String, ResourceLocation> SubstrateMap;
-
-    public static HashMap<String, ResourceLocation> TabulaRasaFiles;
+    public static HashMap<String, ResourceLocation> BlankSlateFiles;
 
     public static void CreateMaps() {
         try {
-            StyleMap = NewMap("/src/main/resources/assets/blockprinting/textures/block/bpstylesfolder/");
-            SubstrateMap = NewMap("/src/main/resources/assets/blockprinting/textures/block/bpsubstratesfolder/");
-            TabulaRasaFiles = NewMap("/src/main/resources/assets/blockprinting/textures/block/tabularasa/");
+            StyleMap = NewMap( FileTracker.texturesPath + "styles/");
+            SubstrateMap = NewMap(FileTracker.texturesPath + "substrates/");
+            BlankSlateFiles = NewMap(FileTracker.texturesPath + "blankslates/");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -78,14 +68,16 @@ public abstract class FileHandler {
 
     public static ResourceLocation getStyle(String key) throws IOException {return StyleMap.get(key);}
     public static ResourceLocation getSubstrate(String key) throws IOException {return SubstrateMap.get(key);}
-    public static ResourceLocation getBlankSlate(String key) throws IOException {return TabulaRasaFiles.get(key);}
+    public static ResourceLocation getBlankSlate(String key) throws IOException {return BlankSlateFiles.get(key);}
 
     public static Set<String> getAllStyles() {return StyleMap.keySet();}
     public static Set<String> getAllSubstrates() {return SubstrateMap.keySet();}
-    public static Set<String> getTabulaRasa() {return TabulaRasaFiles.keySet();}
-
-
-
-
+    public static Set<String> getAllBlankSlates() {return BlankSlateFiles.keySet();}
+   /* public static Collection<ResourceLocation> getStyleFiles() {return StyleMap.values();}
+    public static Collection<ResourceLocation> getSubstrateFiles() {return SubstrateMap.values();}
+    public static Collection<ResourceLocation> getTabulaFiles() {return BlankSlateFiles.values();}
+*/
+    public static boolean isValidStyle(String input){return StyleMap.containsKey(input);}
+    public static boolean isValidSubstrate(String input){return SubstrateMap.containsKey(input);}
 
 }

@@ -1,6 +1,7 @@
 package net.september.blockprinting.datagen;
 
-import java.util.ArrayList;
+import net.september.blockprinting.util.FileMaps;
+
 import java.util.Set;
 
 public class Assembly {
@@ -13,7 +14,7 @@ public class Assembly {
     }
 
     private static final Set<String> AllSwatches = Swatch.getAllSwatches();
-    private static final Set<String> AllStyles = FileHandler.getAllStyles();
+    private static final Set<String> AllStyles = FileMaps.getAllStyles();
 
     public static Assembly[] AssembledCombinations = new Assembly[AllStyles.size()*AllSwatches.size()];
 
